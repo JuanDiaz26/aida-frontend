@@ -1,0 +1,135 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+}
+.navbar > .container {
+  max-width: var(--maxw);
+  padding-inline: var(--gutter);
+  min-height: 60px;
+  gap: 1rem;
+}
+.navbar-brand {
+  font-family: var(--mono);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+}
+.navbar-brand:hover { color: var(--text); }
+.navbar-brand b { color: var(--accent); }
+.navbar-brand b.punto { color: var(--text-faint); font-weight: 500; }
+
+/* El logo va enmarcado: leído como glifo de terminal, no como sticker pegado */
+.brand-logo {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+  padding: 4px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: border-color .25s, box-shadow .25s;
+}
+.navbar-brand:hover .brand-logo {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 14px -4px var(--accent-2);
+}
+
+.navbar-nav { gap: 0.25rem; }
+.navbar-nav .nav-link {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  padding: 0.45rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  transition: color .2s, border-color .2s, background .2s;
+  white-space: nowrap;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus { color: var(--nav-accent); border-color: var(--border); background: var(--bg-elev); }
+.navbar-nav .nav-link.active { color: var(--nav-accent); border-color: var(--border); background: var(--bg-elev); }
+.navbar-nav .nav-link .n { color: var(--nav-accent); margin-right: 0.4em; }
+
+.navbar-toggler {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.4rem 0.55rem;
+  background: var(--bg-elev);
+  box-shadow: none;
+}
+.navbar-toggler:focus { box-shadow: none; outline: 1px solid var(--nav-accent); }
+.navbar-toggler .barra {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--nav-accent);
+  margin: 3px 0;
+  transition: transform .25s, opacity .25s;
+}
+.navbar-toggler[aria-expanded="true"] .barra:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
+.navbar-toggler[aria-expanded="true"] .barra:nth-child(2) { opacity: 0; }
+.navbar-toggler[aria-expanded="true"] .barra:nth-child(3) { transform: translateY(-4.5px) rotate(-45deg); }
+
+/* ---------- Switch de tema ---------- */
+.tema-switch {
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  border-radius: 3px;
+  padding: 2px;
+  line-height: 0;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.tema-switch:hover { border-color: var(--nav-accent); }
+.tema-pista {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 22px;
+}
+.tema-bola {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 22px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--nav-accent) 14%, transparent);
+  border: 1px solid var(--nav-accent);
+  transition: transform .25s cubic-bezier(.4, .15, .2, 1);
+}
+[data-bs-theme="dark"] .tema-bola { transform: translateX(25px); }
+.tema-icono {
+  grid-area: 1 / 1;
+  width: 12px;
+  height: 12px;
+  color: var(--nav-accent);
+  transition: opacity .2s;
+}
+.tema-icono-luna { opacity: 0; }
+[data-bs-theme="dark"] .tema-icono-sol { opacity: 0; }
+[data-bs-theme="dark"] .tema-icono-luna { opacity: 1; }
+
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    border-top: 1px solid var(--border);
+    margin-top: 0.5rem;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .navbar-nav .nav-link { padding: 0.7rem 0.4rem; }
+}

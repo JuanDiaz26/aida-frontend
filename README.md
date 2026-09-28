@@ -1,16 +1,60 @@
-# React + Vite
+# AIda – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Trabajo Final – Tecnicatura Universitaria en Programación – UTN FRT**
 
-Currently, two official plugins are available:
+Migración a **React + Vite** del sitio de AIda, el Asistente Institucional De Alumnos de la UTN Facultad Regional Tucumán.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🔗 **Demo en vivo:** [https://aida-utn.vercel.app](https://aida-utn.vercel.app)
+📁 **Repositorio N.º 1** (HTML, CSS y JavaScript): [lazartej71/AIda](https://github.com/lazartej71/AIda)
 
-## React Compiler
+## Integrantes
+- Lazarte, Jorge Exequiel
+- Díaz, Juan Gabriel
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tecnologías
+- **React 19** + **Vite**
+- **React Bootstrap** y **Bootstrap 5**
+- JavaScript (JSX)
+- Git y GitHub, con deploy en **Vercel**
 
-## Expanding the Oxlint configuration
+## Cómo correrlo
+```bash
+npm install
+npm run dev
+```
+Abrir `http://localhost:5173`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Otros scripts: `npm run build` genera la versión de producción y `npm run lint` revisa el código.
+
+## Estructura
+```
+src/
+├── assets/          imágenes que importan los componentes
+├── components/      componentes reutilizables
+│   ├── Navegacion.jsx
+│   ├── SwitchTema.jsx
+│   ├── Logo.jsx
+│   ├── Hero.jsx
+│   └── Metrica.jsx
+├── data/            datos que alimentan a los componentes
+├── styles/          variables del tema y estilos por sección
+├── App.jsx
+└── main.jsx
+```
+
+## Componentes y props
+- **`App`** guarda el tema actual en su estado y se lo pasa al navbar por props (`tema`, `onCambiarTema`).
+- **`Navegacion`** arma el menú con `Navbar`, `Nav` y `Container` de React Bootstrap. Los enlaces se generan a partir de la lista de `data/secciones.js`.
+- **`SwitchTema`** recibe el tema y la función para cambiarlo, y no guarda estado propio.
+- **`Logo`** se reutiliza en el navbar y en la portada; recibe `className` y `alt` por props.
+- **`Metrica`** muestra un dato de la portada (`valor` y `etiqueta`); el mismo componente se usa tres veces con datos distintos.
+
+## Estado de la migración
+- [x] Navbar con menú hamburguesa y cambio de tema claro/oscuro
+- [x] Portada
+- [ ] Cómo funciona
+- [ ] Temas
+- [ ] Asistente
+- [ ] Panel institucional
+- [ ] Preguntas frecuentes
+- [ ] Footer
