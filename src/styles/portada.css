@@ -1,0 +1,153 @@
+.hero {
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 6rem 4rem;
+}
+.hero-tag {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--accent);
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.hero-tag .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+  animation: pulso 1.8s ease-in-out infinite;
+  flex: 0 0 auto;
+}
+@keyframes pulso { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: clamp(2.6rem, 9vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  max-width: 16ch;
+}
+.hero h1 .accent { color: var(--accent); }
+.hero-sub {
+  font-family: var(--mono);
+  font-size: clamp(0.85rem, 2.2vw, 1.15rem);
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+.hero-sub .sep { color: var(--accent); padding: 0 0.4em; }
+.hero-tagline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.5vw, 1.5rem);
+  color: var(--text-dim);
+  max-width: 44ch;
+}
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.05em;
+  background: var(--accent);
+  margin-left: 0.1em;
+  transform: translateY(0.12em);
+  animation: parpadeo 1.05s steps(1) infinite;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+@keyframes parpadeo { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+.hero-meta {
+  margin-top: 3.5rem;
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-faint);
+}
+.hero-meta b {
+  color: var(--accent-2);
+  display: block;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+}
+
+.hero-cta {
+  --bs-btn-border-radius: 3px;
+  margin-top: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0.85rem 1.5rem;
+  transition: background .25s, box-shadow .25s;
+}
+.hero-cta:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 28px -8px var(--accent-glow);
+}
+
+/* El logo como pieza de la portada: enmarcado y con el halo en su propio azul */
+.hero-logo-marco {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-elev);
+}
+.hero-logo-marco::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 6px;
+  background: radial-gradient(circle at 50% 42%, var(--accent-dim), transparent 70%);
+  pointer-events: none;
+}
+.hero-logo-marco img {
+  width: 260px;
+  max-width: 100%;
+  height: auto;
+  position: relative;
+}
+.hero-logo-pie {
+  width: 100%;
+  margin-top: 1.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-faint);
+  text-align: center;
+  position: relative;
+}
+
+@media (max-width: 991.98px) {
+  .hero-logo-marco { width: fit-content; }
+}
+
+@media (max-width: 575.98px) {
+  .hero-meta { gap: 1.5rem; }
+  .hero-logo-marco { width: 100%; }
+}
