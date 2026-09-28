@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Hero from './components/Hero.jsx'
 import Navegacion from './components/Navegacion.jsx'
 
 const CLAVE_TEMA = 'aida-tema'
@@ -19,7 +20,12 @@ function App() {
     setTema((actual) => (actual === 'dark' ? 'light' : 'dark'))
   }
 
-  return <Navegacion tema={tema} onCambiarTema={cambiarTema} />
+  return (
+    <>
+      <Navegacion tema={tema} onCambiarTema={cambiarTema} />
+      <Hero />
+    </>
+  )
 }
 
 export default App
