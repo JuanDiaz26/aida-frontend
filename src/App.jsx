@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import Hero from './components/Hero.jsx'
-import Navegacion from './components/Navegacion.jsx'
+import { Route, Routes } from 'react-router-dom'
+import Layout from './components/Layout.jsx'
+import Inicio from './pages/Inicio.jsx'
 
 const CLAVE_TEMA = 'aida-tema'
 
@@ -21,10 +22,11 @@ function App() {
   }
 
   return (
-    <>
-      <Navegacion tema={tema} onCambiarTema={cambiarTema} />
-      <Hero />
-    </>
+    <Routes>
+      <Route element={<Layout tema={tema} onCambiarTema={cambiarTema} />}>
+        <Route index element={<Inicio />} />
+      </Route>
+    </Routes>
   )
 }
 

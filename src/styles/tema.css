@@ -3,6 +3,8 @@
   --bg:            #eef1f2;
   --bg-elev:       #ffffff;
   --bg-elev-2:     #f7f9fa;
+  --bg-term:       #0d0d0d;
+  --bg-pie:        #e3e9eb;
   --border:        #ccd4d7;
   --border-soft:   #dde3e5;
   --text:          #10161a;
@@ -36,6 +38,8 @@
   --bg:            #0d0d0d;
   --bg-elev:       #141414;
   --bg-elev-2:     #1a1a1a;
+  --bg-term:       #0a0a0a;
+  --bg-pie:        #0a0a0a;
   --border:        #262626;
   --border-soft:   #1f1f1f;
   --text:          #e8e8e8;

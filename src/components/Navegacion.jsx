@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
+import { Link, NavLink } from 'react-router-dom'
 import Logo from './Logo.jsx'
 import SwitchTema from './SwitchTema.jsx'
 import { secciones } from '../data/secciones.js'
@@ -11,7 +12,7 @@ function Navegacion({ tema, onCambiarTema }) {
   return (
     <Navbar expand="lg" sticky="top" expanded={abierto} onToggle={setAbierto} collapseOnSelect>
       <Container>
-        <Navbar.Brand href="#inicio">
+        <Navbar.Brand as={Link} to="/" onClick={() => setAbierto(false)}>
           <Logo className="brand-logo" alt="Logo de AIda" />
           <span>
             ~/<b>AI</b>da<b className="punto">.utnfrt</b>
@@ -35,7 +36,7 @@ function Navegacion({ tema, onCambiarTema }) {
         <Navbar.Collapse id="navMenu" className="order-lg-2">
           <Nav className="ms-auto py-2 py-lg-0">
             {secciones.map((seccion) => (
-              <Nav.Link key={seccion.id} href={`#${seccion.id}`}>
+              <Nav.Link key={seccion.ruta} as={NavLink} to={seccion.ruta} eventKey={seccion.ruta}>
                 <span className="n">{seccion.numero}</span>
                 {seccion.nombre}
               </Nav.Link>

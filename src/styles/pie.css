@@ -1,0 +1,41 @@
+.pie {
+  border-top: 1px solid var(--border);
+  background: var(--bg-pie);
+  padding-block: 4rem 3rem;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+.pie-marca {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 1.6rem;
+  line-height: 1.1;
+  margin-bottom: 0;
+}
+.pie-logo { margin-top: 1.25rem; height: 68px; width: auto; opacity: 0.95; }
+
+.pie-col h2 {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+.pie-col p { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.35rem; }
+.pie-col p b { color: var(--text); }
+
+.pie-fondo {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  letter-spacing: 0.05em;
+}
