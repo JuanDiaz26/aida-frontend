@@ -4,6 +4,17 @@ import Seo from '../components/Seo.jsx'
 import { preguntas } from '../data/preguntas.js'
 import '../styles/preguntas.css'
 
+// Datos estructurados de schema.org para que los buscadores reconozcan la página como FAQ.
+// Salen de la misma lista que el acordeón, así no hay que mantener dos copias
+const datosEstructurados = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: preguntas.map((item) => ({
+    '@type': 'Question',
+    name: item.pregunta,
+    acceptedAnswer: { '@type': 'Answer', text: item.respuesta },
+  })),
+}
 
 function Preguntas() {
   return (
@@ -12,6 +23,7 @@ function Preguntas() {
         titulo="Preguntas frecuentes"
         descripcion="Dudas frecuentes sobre AIda, el asistente de la UTN FRT: qué responde, cómo consultar las mesas de examen, qué datos usa y qué pasa cuando no sabe la respuesta."
       />
+      <script type="application/ld+json">{JSON.stringify(datosEstructurados)}</script>
 
       <Container>
         <EncabezadoSeccion numero="05" kicker="Preguntas" titulo="Dudas frecuentes" />
