@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
+import Asistente from './pages/Asistente.jsx'
 import ComoFunciona from './pages/ComoFunciona.jsx'
 import Equipo from './pages/Equipo.jsx'
 import Inicio from './pages/Inicio.jsx'
@@ -32,6 +33,7 @@ function App() {
         <Route index element={<Inicio />} />
         <Route path="como-funciona" element={<ComoFunciona />} />
         <Route path="temas" element={<Temas />} />
+        <Route path="asistente" element={<Asistente />} />
         <Route path="panel" element={<Panel />} />
         <Route path="equipo" element={<Equipo />} />
         <Route path="*" element={<NoEncontrada />} />
