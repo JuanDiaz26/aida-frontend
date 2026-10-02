@@ -1,0 +1,63 @@
+section { position: relative; z-index: 1; }
+
+.section-pad { padding-block: clamp(4rem, 10vw, 8rem); }
+
+.accent { color: var(--accent); }
+
+/* ---------- Encabezado de cada página ---------- */
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+.sec-num {
+  font-family: var(--mono);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+  letter-spacing: -0.04em;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 0;
+}
+.sec-kicker {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.sec-intro {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  max-width: 70ch;
+  margin-bottom: 2.5rem;
+}
+
+/* Título chico de los accesos de la portada */
+.explorar-titulo {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 575.98px) {
+  .sec-head { gap: 0.75rem; }
+}
