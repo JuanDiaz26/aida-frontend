@@ -1,10 +1,12 @@
 import { Button, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
+import Seo from '../components/Seo.jsx'
 
 function NoEncontrada() {
   return (
     <section className="section-pad">
+      <Seo titulo="Página no encontrada" />
       <Container>
         <EncabezadoSeccion numero="404" kicker="Error" titulo="Esta página no existe" />
 

@@ -1,11 +1,16 @@
 import { Col, Container, Row } from 'react-bootstrap'
 import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
+import Seo from '../components/Seo.jsx'
 import Tarjeta from '../components/Tarjeta.jsx'
 import { integrantes } from '../data/integrantes.js'
 
 function Equipo() {
   return (
     <section className="section-pad">
+      <Seo
+        titulo="Equipo"
+        descripcion="Integrantes del equipo que desarrolla AIda, trabajo final de la Tecnicatura Universitaria en Programación de la UTN FRT."
+      />
       <Container>
         <EncabezadoSeccion numero="06" kicker="Equipo" titulo="Quiénes lo hacemos" />
 
