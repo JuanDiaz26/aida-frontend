@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import Logo from './Logo.jsx'
 import Metrica from './Metrica.jsx'
 import '../styles/portada.css'
@@ -14,7 +15,7 @@ const metricas = [
 
 function Hero() {
   return (
-    <Container as="header" className="hero" id="inicio">
+    <Container as="header" className="hero">
       <Row className="align-items-center g-5">
         <Col xs={12} lg>
           <div className="hero-tag aparecer">
@@ -46,7 +47,7 @@ function Hero() {
             ))}
           </div>
 
-          <Button variant="" href="#asistente" className="hero-cta aparecer d4">
+          <Button as={Link} to="/asistente" variant="" className="hero-cta aparecer d4">
             Consultar ahora <span aria-hidden="true">›</span>
           </Button>
         </Col>
