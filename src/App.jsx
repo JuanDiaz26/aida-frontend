@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import ComoFunciona from './pages/ComoFunciona.jsx'
+import Equipo from './pages/Equipo.jsx'
 import Inicio from './pages/Inicio.jsx'
 import Panel from './pages/Panel.jsx'
 import Temas from './pages/Temas.jsx'
@@ -31,6 +32,7 @@ function App() {
         <Route path="como-funciona" element={<ComoFunciona />} />
         <Route path="temas" element={<Temas />} />
         <Route path="panel" element={<Panel />} />
+        <Route path="equipo" element={<Equipo />} />
       </Route>
     </Routes>
   )
