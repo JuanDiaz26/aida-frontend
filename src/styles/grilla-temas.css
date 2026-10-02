@@ -1,0 +1,41 @@
+.temas-grid {
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+.temas-grid > .col {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.tema {
+  height: 100%;
+  background: var(--bg-elev);
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  transition: background .25s;
+}
+.tema:hover { background: var(--bg-elev-2); }
+.tema .n {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  flex: 0 0 auto;
+}
+.tema b {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+/* Cuando el ítem es un enlace (portada) se marca con una flecha al pasar el mouse */
+a.tema::after {
+  content: "›";
+  margin-left: auto;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity .2s, transform .2s;
+}
+a.tema:hover::after { opacity: 1; transform: none; }
