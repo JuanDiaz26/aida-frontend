@@ -1,8 +1,8 @@
 export const secciones = [
-  { id: 'como-funciona', numero: '01', nombre: 'Cómo funciona' },
-  { id: 'temas', numero: '02', nombre: 'Temas' },
-  { id: 'asistente', numero: '03', nombre: 'Asistente' },
-  { id: 'panel', numero: '04', nombre: 'Panel' },
-  { id: 'faq', numero: '05', nombre: 'Preguntas' },
-  { id: 'equipo', numero: '06', nombre: 'Equipo' },
+  { ruta: '/como-funciona', numero: '01', nombre: 'Cómo funciona' },
+  { ruta: '/temas', numero: '02', nombre: 'Temas' },
+  { ruta: '/asistente', numero: '03', nombre: 'Asistente' },
+  { ruta: '/panel', numero: '04', nombre: 'Panel' },
+  { ruta: '/preguntas', numero: '05', nombre: 'Preguntas' },
+  { ruta: '/equipo', numero: '06', nombre: 'Equipo' },
 ]

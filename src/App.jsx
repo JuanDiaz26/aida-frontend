@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react'
-import Hero from './components/Hero.jsx'
-import Navegacion from './components/Navegacion.jsx'
+import { Route, Routes } from 'react-router-dom'
+import Layout from './components/Layout.jsx'
+import Asistente from './pages/Asistente.jsx'
+import ComoFunciona from './pages/ComoFunciona.jsx'
+import Equipo from './pages/Equipo.jsx'
+import Inicio from './pages/Inicio.jsx'
+import NoEncontrada from './pages/NoEncontrada.jsx'
+import Panel from './pages/Panel.jsx'
+import Preguntas from './pages/Preguntas.jsx'
+import Temas from './pages/Temas.jsx'
 
 const CLAVE_TEMA = 'aida-tema'
 
@@ -21,10 +29,18 @@ function App() {
   }
 
   return (
-    <>
-      <Navegacion tema={tema} onCambiarTema={cambiarTema} />
-      <Hero />
-    </>
+    <Routes>
+      <Route element={<Layout tema={tema} onCambiarTema={cambiarTema} />}>
+        <Route index element={<Inicio />} />
+        <Route path="como-funciona" element={<ComoFunciona />} />
+        <Route path="temas" element={<Temas />} />
+        <Route path="asistente" element={<Asistente />} />
+        <Route path="panel" element={<Panel />} />
+        <Route path="preguntas" element={<Preguntas />} />
+        <Route path="equipo" element={<Equipo />} />
+        <Route path="*" element={<NoEncontrada />} />
+      </Route>
+    </Routes>
   )
 }
 

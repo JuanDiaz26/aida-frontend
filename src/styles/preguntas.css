@@ -1,0 +1,62 @@
+/* Acordeón de React Bootstrap re-tematizado con sus propias variables */
+.faq {
+  --bs-accordion-bg: var(--bg-elev);
+  --bs-accordion-color: var(--text);
+  --bs-accordion-border-color: var(--border);
+  --bs-accordion-border-radius: 0;
+  --bs-accordion-inner-border-radius: 0;
+  --bs-accordion-btn-bg: var(--bg-elev);
+  --bs-accordion-btn-color: var(--text);
+  --bs-accordion-active-bg: var(--bg-elev-2);
+  --bs-accordion-active-color: var(--accent);
+  --bs-accordion-btn-focus-box-shadow: none;
+  border: 1px solid var(--border);
+  background: var(--border);
+  display: grid;
+  gap: 1px;
+}
+.faq .accordion-item { border: none; background: var(--bg-elev); }
+
+.faq-header .accordion-button {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: none;
+}
+.faq-header .accordion-button:hover { background: var(--bg-elev-2); color: var(--accent); }
+.faq-header .n {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  flex: 0 0 auto;
+}
+
+/* El chevron de Bootstrap se reemplaza por el signo + que gira al abrir */
+.faq-header .accordion-button::after {
+  content: "+";
+  background-image: none;
+  width: auto;
+  height: auto;
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 1.15rem;
+  color: var(--accent);
+  transition: transform .25s;
+}
+.faq-header .accordion-button:not(.collapsed)::after { transform: rotate(45deg); }
+
+.faq-cuerpo {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  padding: 0 1.5rem 1.5rem calc(1.5rem + 2.4em);
+  max-width: 78ch;
+}
+
+@media (max-width: 575.98px) {
+  .faq-cuerpo { padding-left: 1.5rem; }
+}

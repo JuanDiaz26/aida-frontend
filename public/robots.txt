@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aida-utn.vercel.app/sitemap.xml

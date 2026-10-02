@@ -1,0 +1,170 @@
+/* ---------- Bloque terminal ---------- */
+/* La consola se mantiene oscura en los dos temas: es una terminal */
+.term {
+  --bg-elev:     #141414;
+  --bg-elev-2:   #1a1a1a;
+  --border:      #262626;
+  --text:        #e8e8e8;
+  --text-dim:    #9a9a9a;
+  --text-faint:  #5c5c5c;
+  --accent:      #00ff88;
+  --accent-2:    #00e5ff;
+  --accent-dim:  rgba(0, 255, 136, 0.12);
+  --accent-glow: rgba(0, 255, 136, 0.35);
+  background: var(--bg-term);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.8rem;
+  max-width: 100%;
+}
+.term-bar {
+  background: var(--bg-elev);
+  border-bottom: 1px solid var(--border);
+  padding: 0.55rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.term-bar .d { width: 11px; height: 11px; border-radius: 50%; background: #333; flex: 0 0 auto; }
+.term-bar .d.r { background: #ff5f56; }
+.term-bar .d.y { background: #ffbd2e; }
+.term-bar .d.g { background: #27c93f; }
+.term-bar .name {
+  margin-left: 0.6rem;
+  font-size: 0.68rem;
+  color: var(--text-faint);
+  letter-spacing: 0.05em;
+}
+.term-bar .estado {
+  margin-left: auto;
+  font-size: 0.66rem;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ---------- Consola del asistente ---------- */
+.consola { max-width: 760px; }
+.consola-registro {
+  padding: 1.25rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  min-height: 220px;
+  max-height: 340px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.msg-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-faint);
+  margin-bottom: 0.45rem;
+}
+.msg-quien {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.1rem 0.45rem;
+}
+.msg-respuesta .msg-quien { color: var(--accent); border-color: rgba(0, 255, 136, 0.4); }
+.msg-cuerpo {
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--border);
+}
+.msg-respuesta .msg-cuerpo { color: var(--text); border-left-color: var(--accent); }
+.msg-fuente {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.66rem;
+  color: var(--text-faint);
+  letter-spacing: 0.05em;
+}
+.redactando {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 0;
+}
+.redactando::after {
+  content: "";
+  width: 7px;
+  height: 13px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+  animation: titileo 1.05s steps(1) infinite;
+}
+@keyframes titileo { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+.consola-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.9rem 1.2rem;
+  border-top: 1px solid var(--border);
+}
+.chip {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  transition: color .2s, border-color .2s, background .2s;
+}
+.chip:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+.consola-entrada {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  background: var(--bg-elev);
+  padding-left: 1.2rem;
+}
+.consola-entrada .prompt { color: var(--accent); font-size: 0.85rem; flex: 0 0 auto; }
+.consola-entrada input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  color: var(--text);
+  caret-color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  padding: 0.9rem 0.7rem;
+}
+.consola-entrada input::placeholder { color: var(--text-faint); }
+.consola-entrada input:focus { outline: none; }
+.consola-entrada button {
+  background: none;
+  border: none;
+  border-left: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0 1.3rem;
+  align-self: stretch;
+  cursor: pointer;
+  transition: color .2s, background .2s;
+}
+.consola-entrada button:hover { color: var(--accent); background: var(--accent-dim); }
+
+@media (max-width: 575.98px) {
+  .consola-entrada { padding-left: 0.9rem; }
+  .consola-entrada button { padding: 0 0.9rem; }
+}
