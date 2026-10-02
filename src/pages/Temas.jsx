@@ -1,11 +1,16 @@
 import { Col, Container, Row } from 'react-bootstrap'
 import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
 import ItemTema from '../components/ItemTema.jsx'
+import Seo from '../components/Seo.jsx'
 import { temas } from '../data/temas.js'
 
 function Temas() {
   return (
     <section className="section-pad">
+      <Seo
+        titulo="Temas"
+        descripcion="Qué le podés consultar a AIda: mesas de examen, inscripciones, correlativas, trámites administrativos, ingreso y calendario académico de la UTN FRT."
+      />
       <Container>
         <EncabezadoSeccion numero="02" kicker="Temas" titulo="Qué podés consultar" />
 

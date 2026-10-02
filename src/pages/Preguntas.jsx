@@ -1,5 +1,6 @@
 import { Accordion, Container } from 'react-bootstrap'
 import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
+import Seo from '../components/Seo.jsx'
 import { preguntas } from '../data/preguntas.js'
 import '../styles/preguntas.css'
 
@@ -7,6 +8,10 @@ import '../styles/preguntas.css'
 function Preguntas() {
   return (
     <section className="section-pad">
+      <Seo
+        titulo="Preguntas frecuentes"
+        descripcion="Dudas frecuentes sobre AIda, el asistente de la UTN FRT: qué responde, cómo consultar las mesas de examen, qué datos usa y qué pasa cuando no sabe la respuesta."
+      />
 
       <Container>
         <EncabezadoSeccion numero="05" kicker="Preguntas" titulo="Dudas frecuentes" />
