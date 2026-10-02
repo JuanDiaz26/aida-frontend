@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import ComoFunciona from './pages/ComoFunciona.jsx'
 import Inicio from './pages/Inicio.jsx'
+import Panel from './pages/Panel.jsx'
 import Temas from './pages/Temas.jsx'
 
 const CLAVE_TEMA = 'aida-tema'
@@ -29,6 +30,7 @@ function App() {
         <Route index element={<Inicio />} />
         <Route path="como-funciona" element={<ComoFunciona />} />
         <Route path="temas" element={<Temas />} />
+        <Route path="panel" element={<Panel />} />
       </Route>
     </Routes>
   )
