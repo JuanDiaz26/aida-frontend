@@ -57,6 +57,31 @@
   max-width: 78ch;
 }
 
+/* Buscador: mismo fondo y borde que el acordeón para que se lean como un solo bloque */
+.faq-buscador {
+  background: var(--bg-elev);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  font-size: 0.82rem;
+  padding: 0.9rem 1.5rem;
+  margin-bottom: 1rem;
+}
+.faq-buscador::placeholder { color: var(--text-faint); }
+.faq-buscador:focus {
+  background: var(--bg-elev);
+  color: var(--text);
+  border-color: var(--accent);
+  box-shadow: none;
+}
+.faq-vacio {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  padding: 1.35rem 1.5rem;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+}
+
 @media (max-width: 575.98px) {
   .faq-cuerpo { padding-left: 1.5rem; }
 }
