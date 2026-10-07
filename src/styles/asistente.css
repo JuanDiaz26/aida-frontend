@@ -127,6 +127,10 @@
   transition: color .2s, border-color .2s, background .2s;
 }
 .chip:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+/* Va a la derecha de las sugerencias para no confundirse con ellas */
+.chip-nueva { margin-left: auto; color: var(--text-faint); }
+.chip:disabled { opacity: 0.4; cursor: not-allowed; }
+.chip:disabled:hover { color: var(--text-faint); border-color: var(--border); background: none; }
 .consola-entrada {
   display: flex;
   align-items: center;

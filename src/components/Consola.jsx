@@ -1,15 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Mensaje from './Mensaje.jsx'
 import { respuestaPorDefecto, respuestasChat, saludoChat, sugerencias } from '../data/respuestas.js'
+import { normalizarTexto } from '../utils/texto.js'
 import '../styles/asistente.css'
-
-// Quita tildes y pasa a minúsculas para que "trámite" y "tramite" coincidan igual
-function normalizarTexto(texto) {
-  return texto
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-}
 
 function obtenerRespuesta(consulta) {
   const consultaNormalizada = normalizarTexto(consulta)
@@ -26,14 +19,32 @@ function obtenerHoraActual() {
   return `${horas}:${minutos}`
 }
 
+// sessionStorage y no localStorage: la conversación dura lo que dura la visita,
+// al cerrar la pestaña se borra (el tema, en cambio, se recuerda siempre)
+const CLAVE_CONVERSACION = 'aida-conversacion'
+
+function crearConversacionNueva() {
+  return [{ tipo: 'respuesta', texto: saludoChat, hora: obtenerHoraActual() }]
+}
+
+// Si en esta pestaña ya había una conversación se retoma; si no, arranca con el saludo
+function leerConversacionGuardada() {
+  const guardada = sessionStorage.getItem(CLAVE_CONVERSACION)
+  return guardada ? JSON.parse(guardada) : crearConversacionNueva()
+}
+
 function Consola({ nombre }) {
-  const [mensajes, setMensajes] = useState(() => [
-    { tipo: 'respuesta', texto: saludoChat, hora: obtenerHoraActual() },
-  ])
+  const [mensajes, setMensajes] = useState(leerConversacionGuardada)
   const [consulta, setConsulta] = useState('')
   const [redactando, setRedactando] = useState(false)
   const registroRef = useRef(null)
   const esperaRef = useRef(null)
+
+  // Cada vez que cambian los mensajes se guarda la conversación, así no se pierde al
+  // cambiar de página. Escribir en el input no lo dispara: eso cambia consulta, no mensajes
+  useEffect(() => {
+    sessionStorage.setItem(CLAVE_CONVERSACION, JSON.stringify(mensajes))
+  }, [mensajes])
 
   useEffect(() => {
     const registro = registroRef.current
@@ -62,6 +73,10 @@ function Consola({ nombre }) {
       ])
       setRedactando(false)
     }, 700)
+  }
+
+  function nuevaConversacion() {
+    setMensajes(crearConversacionNueva())
   }
 
   function manejarSubmit(evento) {
@@ -105,6 +120,15 @@ function Consola({ nombre }) {
             {sugerencia}
           </button>
         ))}
+        {/* Deshabilitado mientras redacta, para que la respuesta pendiente no caiga en la conversación nueva */}
+        <button
+          className="chip chip-nueva"
+          type="button"
+          onClick={nuevaConversacion}
+          disabled={redactando}
+        >
+          ↺ Nueva conversación
+        </button>
       </div>
 
       <form className="consola-entrada" onSubmit={manejarSubmit}>
