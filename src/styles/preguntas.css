@@ -81,6 +81,9 @@
   border: 1px solid var(--border);
   background: var(--bg-elev);
 }
+/* Igual que los links de las tarjetas: si no, hereda el color del texto y no parece un link */
+.faq-vacio a { color: var(--accent); }
+.faq-vacio a:hover { text-decoration: underline; }
 
 @media (max-width: 575.98px) {
   .faq-cuerpo { padding-left: 1.5rem; }
