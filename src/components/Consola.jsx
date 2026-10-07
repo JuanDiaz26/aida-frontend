@@ -1,15 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Mensaje from './Mensaje.jsx'
 import { respuestaPorDefecto, respuestasChat, saludoChat, sugerencias } from '../data/respuestas.js'
+import { normalizarTexto } from '../utils/texto.js'
 import '../styles/asistente.css'
-
-// Quita tildes y pasa a minúsculas para que "trámite" y "tramite" coincidan igual
-function normalizarTexto(texto) {
-  return texto
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-}
 
 function obtenerRespuesta(consulta) {
   const consultaNormalizada = normalizarTexto(consulta)
