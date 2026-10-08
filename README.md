@@ -21,20 +21,26 @@ AIda centraliza la información académica de la facultad (mesas de examen, insc
 - La conversación con el asistente se conserva al cambiar de página, con un botón para empezar una nueva.
 - Preguntas frecuentes en un acordeón, con un buscador que filtra mientras se escribe.
 - Página 404 para rutas que no existen.
+- Calendario académico en el inicio con los feriados del año, traídos de una API pública y navegables mes por mes.
 
 ## Tecnologías
 - **React 19** + **Vite**
 - **React Router** (`react-router-dom`)
 - **React Bootstrap** y **Bootstrap 5**
+- **Axios** para consumir la API de feriados
+- **SweetAlert2** para los avisos al usuario
 - JavaScript (JSX)
 - Git y GitHub, con deploy en **Vercel**
 
 ## Cómo correrlo
 ```bash
 npm install
+cp .env.example .env
 npm run dev
 ```
 Abrir `http://localhost:5173`.
+
+El archivo `.env` guarda la URL de la API de feriados y **no se sube a GitHub** (figura en `.gitignore`). Por eso cada integrante lo crea a partir de `.env.example`, que sí está en el repositorio.
 
 Otros scripts: `npm run build` genera la versión de producción, `npm run preview` la sirve localmente y `npm run lint` revisa el código.
 
@@ -57,7 +63,9 @@ src/
 │   ├── GrillaTarjetas.jsx
 │   ├── ItemTema.jsx
 │   ├── Consola.jsx
-│   └── Mensaje.jsx
+│   ├── Mensaje.jsx
+│   ├── CalendarioFeriados.jsx
+│   └── ItemFeriado.jsx
 ├── pages/           una página por ruta
 │   ├── Inicio.jsx
 │   ├── ComoFunciona.jsx
@@ -68,11 +76,13 @@ src/
 │   ├── Equipo.jsx
 │   └── NoEncontrada.jsx
 ├── data/            datos que alimentan a los componentes
-├── utils/           funciones que usan varios componentes (normalizar texto)
+├── services/        pedidos a APIs externas (feriados)
+├── utils/           funciones que usan varios componentes (texto y fechas)
 ├── styles/          variables del tema y estilos por sección
 ├── App.jsx          estado del tema y definición de las rutas
 └── main.jsx
 vercel.json          redirige todas las rutas a index.html
+.env.example         modelo del .env con la variable VITE_API_URL
 ```
 
 ## Rutas (React Router)
@@ -106,6 +116,8 @@ Los enlaces del navbar usan `NavLink`, que agrega la clase `active` a la página
 - **`Consola`** maneja con `useState` los mensajes, lo que escribe el usuario y el estado "redactando", y guarda la conversación con `useEffect` (ver [Hooks](#hooks-usestate-y-useeffect)). Recibe `nombre` para la barra de la terminal.
 - **`Mensaje`** recibe `tipo`, `texto`, `hora` y `fuente` y dibuja un mensaje de la conversación.
 - **`Pie`** es el footer, compartido por todas las páginas.
+- **`CalendarioFeriados`** consulta la API de feriados y los muestra mes por mes dentro de un `<aside>` (ver [Consumo de API](#consumo-de-api-pública-tp-8)).
+- **`ItemFeriado`** recibe `fecha`, `nombre`, `tipo` y `hoy`, y dibuja un feriado con los días que faltan.
 
 ## Uso de `map()`
 Ninguna lista está escrita a mano en el JSX: los datos viven en `src/data/` y se recorren con `map()`.
@@ -116,6 +128,7 @@ Ninguna lista está escrita a mano en el JSX: los datos viven en `src/data/` y s
 - Sugerencias rápidas y mensajes de la consola → `respuestas.js` y el estado de `Consola`
 - Integrantes en la página Equipo y en el pie → `integrantes.js`
 - Temas y métricas de la portada → constantes dentro de `Hero.jsx`
+- Feriados del mes en el calendario → datos que llegan de la API
 
 ## Hooks: `useState` y `useEffect`
 
@@ -137,6 +150,11 @@ Ninguna lista está escrita a mano en el JSX: los datos viven en `src/data/` y s
 | `Consola` | `redactando`: si AIda está por responder | Pasa a `true` al enviar y a `false` cuando llega la respuesta |
 | `App` | `tema`: claro u oscuro | Al tocar el switch; arranca con el tema guardado |
 | `Navegacion` | `abierto`: si el menú hamburguesa está desplegado | Al tocar el botón y al elegir una sección |
+| `CalendarioFeriados` | `feriados`: la lista que devuelve la API | Cuando llega la respuesta |
+| `CalendarioFeriados` | `cargando`: si la consulta sigue en curso | Arranca en `true` y pasa a `false` al terminar, con éxito o con error |
+| `CalendarioFeriados` | `error`: el mensaje si la consulta falla | Cuando la API responde con error o no hay conexión |
+| `CalendarioFeriados` | `mes`: el mes que se está mirando | Con las flechas y con "Volver a hoy" |
+| `CalendarioFeriados` | `hoy`: la fecha de hoy | Nunca: se toma una sola vez al montar |
 
 | Componente | `useEffect`: qué hace | Dependencias: cuándo se ejecuta |
 |---|---|---|
@@ -146,12 +164,56 @@ Ninguna lista está escrita a mano en el JSX: los datos viven en `src/data/` y s
 | `App` | Aplica el tema al `<html>`, lo guarda y cambia el color de la barra del navegador | `[tema]`: al cargar y cada vez que cambia el tema |
 | `Layout` | Vuelve arriba de todo al cambiar de página | `[pathname]`: cada vez que cambia la ruta |
 | `Seo` | Cambia el título y los metadatos de la página | `[titulo, descripcion, pathname]` |
+| `CalendarioFeriados` | Pide los feriados del año a la API; si se desmonta antes, cancela el pedido | `[anioActual]`: una vez al montar |
+
+## Consumo de API pública (TP 8)
+
+### La API elegida
+[ArgentinaDatos](https://api.argentinadatos.com) — `GET /v1/feriados/{año}` devuelve los feriados nacionales del año:
+
+```json
+{ "fecha": "2026-10-12", "tipo": "trasladable", "nombre": "Día del Respeto a la Diversidad Cultural" }
+```
+
+Se eligió porque **"Calendario académico" es uno de los temas que cubre AIda**, y los feriados son lo que mueve las mesas de examen y las clases. Es pública, no pide registro ni clave, y permite consultas desde el navegador.
+
+### Dónde se ve
+En el inicio, al costado de "Explorá el sitio", como un `<aside>`: muestra los feriados del mes, cuántos días faltan para cada uno, y se puede recorrer con las flechas de enero a diciembre del año actual. El año sale de la fecha real, así que desde enero el calendario pasa solo al año nuevo, sin tocar el código.
+
+### Variables de entorno
+- La URL vive en el archivo `.env` como `VITE_API_URL`. Vite solo expone al navegador las variables que empiezan con `VITE_`.
+- `src/services/feriados.js` es el único archivo que la usa, con `import.meta.env.VITE_API_URL`. Ningún componente tiene la URL escrita.
+- `.env` está en `.gitignore`, así que no se sube. `.env.example` sí se sube, como modelo para crear el propio.
+- En **Vercel** la variable se carga en *Settings → Environment Variables*, porque el `.env` no llega al servidor. Si faltara, el servicio avisa *"Falta configurar VITE_API_URL"* en lugar de fallar de forma confusa.
+
+### Cómo funciona
+1. `useEffect` ejecuta la consulta al montar el calendario.
+2. Mientras tanto `cargando` vale `true` y se ve el `Spinner` de React Bootstrap.
+3. `services/feriados.js` hace el pedido con **Axios** y comprueba que la respuesta sea una lista.
+4. Si sale bien, los datos se guardan con `setFeriados`. Si sale mal, el mensaje va a `setError` y aparece el aviso de **SweetAlert2**.
+5. En los dos casos, `cargando` pasa a `false` en el bloque `finally`.
+
+La API se consulta **una sola vez**: trae el año entero, y moverse entre meses solo filtra lo que ya llegó, sin nuevos pedidos.
+
+### Manejo de errores
+- **La API responde con un error** (por ejemplo, 404): *"El servicio de feriados respondió con un error (código 404)"*.
+- **No hay conexión:** *"No pudimos conectarnos con el servicio de feriados. Revisá tu conexión."*
+
+El aviso de SweetAlert2 es un *toast*: aparece en una esquina y se cierra solo, para no tapar la portada. El mensaje también queda escrito en el lugar del calendario.
+
+**Para verlo funcionando:** cortar la conexión a internet y recargar el inicio.
+
+### Decisiones y detalles
+- **Fechas sin corrimiento:** `new Date('2026-10-12')` interpreta la fecha en UTC y en Argentina (UTC-3) daría el día 11. Por eso `utils/fechas.js` arma la fecha a mano con año, mes y día.
+- **La fecha de hoy se toma una sola vez**, con `useState(() => new Date())`: llamar a `new Date()` en cada render daría un valor distinto cada vez.
+- **Función actualizadora en las flechas:** `setMes((actual) => Math.min(actual + 1, 11))` parte siempre del valor más reciente. Con `setMes(mes + 1)`, dos clics seguidos leían el mismo `mes` y avanzaba uno solo.
+- **Cancelación del pedido:** si el componente se desmonta antes de que llegue la respuesta, el `AbortController` cancela la consulta y no se actualiza un estado que ya no existe.
 
 ## SEO
 - **Título y descripción por página:** cada página usa `<Seo>`, que cambia el `<title>`, la `meta description`, las etiquetas Open Graph y el `canonical` según la ruta. Por ejemplo, `/temas` queda como *"Temas | AIda UTN FRT"*.
 - **Metadatos base** en `index.html`: `lang="es"`, `description`, `keywords`, `author`, `robots`, Open Graph (`og:title`, `og:description`, `og:url`, `og:locale`) y `theme-color`.
-- **Etiquetas semánticas:** `<header>` en la portada, `<nav>` en el menú, `<main>` para el contenido, `<section>` en cada página, `<article>` en las tarjetas, `<figure>`/`<figcaption>` en el logo y `<footer>` en el pie.
-- **Jerarquía de títulos:** cada página tiene un solo `<h1>` (el del encabezado) y los subtítulos son `<h2>`.
+- **Etiquetas semánticas:** `<header>` en la portada, `<nav>` en el menú, `<main>` para el contenido, `<section>` en cada página, `<article>` en las tarjetas, `<figure>`/`<figcaption>` en el logo, `<aside>` en el calendario, `<time>` en cada feriado y `<footer>` en el pie.
+- **Jerarquía de títulos:** cada página tiene un solo `<h1>` (el del encabezado) y los subtítulos son `<h2>` y `<h3>`.
 - **Datos estructurados:** la página de preguntas incluye un bloque JSON-LD de tipo `FAQPage` (schema.org), generado a partir de la misma lista que el acordeón.
 - **`robots.txt` y `sitemap.xml`** en `public/` para que los buscadores encuentren todas las rutas.
 - **Accesibilidad:** textos `alt` descriptivos, `aria-label` en los controles sin texto y una región `aria-live` en la consola.
