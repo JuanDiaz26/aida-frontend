@@ -65,7 +65,7 @@ function CalendarioFeriados() {
           <Button
             variant=""
             className="calendario-flecha"
-            onClick={() => setMes(mes - 1)}
+            onClick={() => setMes((actual) => Math.max(actual - 1, 0))}
             disabled={mes === 0}
             aria-label="Mes anterior"
           >
@@ -77,7 +77,7 @@ function CalendarioFeriados() {
           <Button
             variant=""
             className="calendario-flecha"
-            onClick={() => setMes(mes + 1)}
+            onClick={() => setMes((actual) => Math.min(actual + 1, 11))}
             disabled={mes === 11}
             aria-label="Mes siguiente"
           >
