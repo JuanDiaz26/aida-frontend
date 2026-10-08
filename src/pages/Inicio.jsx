@@ -1,4 +1,5 @@
 import { Col, Container, Row } from 'react-bootstrap'
+import CalendarioFeriados from '../components/CalendarioFeriados.jsx'
 import Hero from '../components/Hero.jsx'
 import ItemTema from '../components/ItemTema.jsx'
 import Seo from '../components/Seo.jsx'
@@ -12,15 +13,24 @@ function Inicio() {
 
       <section className="section-pad pt-0" aria-labelledby="titulo-explorar">
         <Container>
-          <h2 id="titulo-explorar" className="explorar-titulo">
-            Explorá el sitio
-          </h2>
-          <Row as="ul" xs={1} sm={2} lg={3} className="temas-grid g-0 list-unstyled">
-            {secciones.map((seccion) => (
-              <Col as="li" key={seccion.ruta}>
-                <ItemTema numero={seccion.numero} texto={seccion.nombre} ruta={seccion.ruta} />
-              </Col>
-            ))}
+          {/* En pantallas grandes el calendario queda al costado; en celular baja debajo de la grilla */}
+          <Row className="g-4">
+            <Col lg={8}>
+              <h2 id="titulo-explorar" className="explorar-titulo">
+                Explorá el sitio
+              </h2>
+              <Row as="ul" xs={1} sm={2} className="temas-grid g-0 list-unstyled mb-0">
+                {secciones.map((seccion) => (
+                  <Col as="li" key={seccion.ruta}>
+                    <ItemTema numero={seccion.numero} texto={seccion.nombre} ruta={seccion.ruta} />
+                  </Col>
+                ))}
+              </Row>
+            </Col>
+
+            <Col lg={4}>
+              <CalendarioFeriados />
+            </Col>
           </Row>
         </Container>
       </section>

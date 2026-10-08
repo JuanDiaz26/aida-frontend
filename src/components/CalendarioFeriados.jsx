@@ -59,62 +59,65 @@ function CalendarioFeriados() {
         Calendario académico
       </h2>
 
-      <div className="calendario-nav">
-        <Button
-          variant=""
-          className="calendario-flecha"
-          onClick={() => setMes(mes - 1)}
-          disabled={mes === 0}
-          aria-label="Mes anterior"
-        >
-          ‹
-        </Button>
-        <h3 className="calendario-mes" aria-live="polite">
-          {MESES[mes]} {anioActual}
-        </h3>
-        <Button
-          variant=""
-          className="calendario-flecha"
-          onClick={() => setMes(mes + 1)}
-          disabled={mes === 11}
-          aria-label="Mes siguiente"
-        >
-          ›
-        </Button>
+      {/* El título va afuera de la caja para quedar alineado con "Explorá el sitio" */}
+      <div className="calendario-caja">
+        <div className="calendario-nav">
+          <Button
+            variant=""
+            className="calendario-flecha"
+            onClick={() => setMes(mes - 1)}
+            disabled={mes === 0}
+            aria-label="Mes anterior"
+          >
+            ‹
+          </Button>
+          <h3 className="calendario-mes" aria-live="polite">
+            {MESES[mes]} {anioActual}
+          </h3>
+          <Button
+            variant=""
+            className="calendario-flecha"
+            onClick={() => setMes(mes + 1)}
+            disabled={mes === 11}
+            aria-label="Mes siguiente"
+          >
+            ›
+          </Button>
+        </div>
+
+        {cargando && (
+          <p className="calendario-estado">
+            <Spinner animation="border" size="sm" role="status" aria-hidden="true" />
+            Cargando feriados…
+          </p>
+        )}
+
+        {!cargando && error && <p className="calendario-estado calendario-error">{error}</p>}
+
+        {!cargando && !error && feriadosDelMes.length === 0 && (
+          <p className="calendario-estado">No hay feriados en {MESES[mes].toLowerCase()}.</p>
+        )}
+
+        {!cargando && !error && feriadosDelMes.length > 0 && (
+          <ul className="calendario-lista list-unstyled">
+            {feriadosDelMes.map((feriado) => (
+              <ItemFeriado
+                key={feriado.fecha + feriado.nombre}
+                fecha={feriado.fecha}
+                nombre={feriado.nombre}
+                tipo={feriado.tipo}
+                hoy={hoy}
+              />
+            ))}
+          </ul>
+        )}
+
+        {mes !== mesActual && (
+          <Button variant="" className="calendario-hoy" onClick={() => setMes(mesActual)}>
+            Volver a hoy
+          </Button>
+        )}
       </div>
-
-      {cargando && (
-        <p className="calendario-estado">
-          <Spinner animation="border" size="sm" role="status" aria-hidden="true" />
-          Cargando feriados…
-        </p>
-      )}
-
-      {!cargando && error && <p className="calendario-estado calendario-error">{error}</p>}
-
-      {!cargando && !error && feriadosDelMes.length === 0 && (
-        <p className="calendario-estado">No hay feriados en {MESES[mes].toLowerCase()}.</p>
-      )}
-
-      {!cargando && !error && feriadosDelMes.length > 0 && (
-        <ul className="calendario-lista list-unstyled">
-          {feriadosDelMes.map((feriado) => (
-            <ItemFeriado
-              key={feriado.fecha + feriado.nombre}
-              fecha={feriado.fecha}
-              nombre={feriado.nombre}
-              tipo={feriado.tipo}
-              hoy={hoy}
-            />
-          ))}
-        </ul>
-      )}
-
-      {mes !== mesActual && (
-        <Button variant="" className="calendario-hoy" onClick={() => setMes(mesActual)}>
-          Volver a hoy
-        </Button>
-      )}
     </aside>
   )
 }

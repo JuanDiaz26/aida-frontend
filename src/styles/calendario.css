@@ -1,9 +1,14 @@
 .calendario {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+/* Se estira para terminar a la misma altura que la grilla de al lado */
+.calendario-caja {
+  flex: 1;
   background: var(--bg-elev);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 1.5rem;
-  height: 100%;
+  padding: 1.25rem 1.5rem;
 }
 .calendario-titulo {
   font-size: 0.72rem;
