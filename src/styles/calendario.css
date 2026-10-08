@@ -131,3 +131,20 @@
   background: var(--bg-elev-2);
   color: var(--nav-accent);
 }
+
+/* Toast de SweetAlert2: el div. extra le gana a los estilos que la librería inyecta */
+div.swal2-popup.aviso-toast {
+  font-family: var(--mono);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+div.swal2-popup.aviso-toast .swal2-title {
+  font-size: 0.85rem;
+}
+div.swal2-popup.aviso-toast .swal2-html-container {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+div.swal2-popup.aviso-toast .swal2-timer-progress-bar {
+  background: var(--accent);
+}

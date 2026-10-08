@@ -1,9 +1,24 @@
 import { useEffect, useState } from 'react'
 import { Button, Spinner } from 'react-bootstrap'
+import Swal from 'sweetalert2'
 import ItemFeriado from './ItemFeriado.jsx'
 import { obtenerFeriados } from '../services/feriados.js'
 import { MESES, convertirFecha } from '../utils/fechas.js'
 import '../styles/calendario.css'
+
+// Toast: un aviso chico en una esquina que se cierra solo, para no tapar la portada.
+// Los colores salen de las variables del tema, así acompaña al modo claro y al oscuro
+const avisarError = Swal.mixin({
+  toast: true,
+  position: 'bottom-end',
+  icon: 'error',
+  showConfirmButton: false,
+  timer: 6000,
+  timerProgressBar: true,
+  background: 'var(--bg-elev)',
+  color: 'var(--text)',
+  customClass: { popup: 'aviso-toast' },
+})
 
 // Distingue si la API respondió con un error o si directamente no hubo conexión
 function describirError(error) {
@@ -39,7 +54,9 @@ function CalendarioFeriados() {
         setFeriados(await obtenerFeriados(anioActual, controlador.signal))
       } catch (errorPedido) {
         if (controlador.signal.aborted) return
-        setError(describirError(errorPedido))
+        const mensaje = describirError(errorPedido)
+        setError(mensaje)
+        avisarError.fire({ title: 'No pudimos cargar el calendario', text: mensaje })
       } finally {
         if (!controlador.signal.aborted) setCargando(false)
       }
