@@ -26,7 +26,7 @@ function Hero() {
             <span className="cursor text-primary" />
           </h1>
 
-          <p className="fs-6 fw-medium mb-4 aparecer d2">
+          <p className="d-flex flex-wrap fs-6 fw-medium mb-4 aparecer d2">
             {temas.map((tema, indice) => (
               <Fragment key={tema}>
                 {indice > 0 && <span className="text-primary px-2">·</span>}
