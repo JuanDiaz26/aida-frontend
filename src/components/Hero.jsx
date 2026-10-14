@@ -3,7 +3,6 @@ import { Button, Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Logo from './Logo.jsx'
 import Metrica from './Metrica.jsx'
-import '../styles/portada.css'
 
 const temas = ['Mesas', 'Inscripciones', 'Correlativas', 'Trámites', 'Calendario']
 
@@ -15,47 +14,49 @@ const metricas = [
 
 function Hero() {
   return (
-    <Container as="header" className="hero">
+    <Container as="header" className="portada d-flex flex-column justify-content-center">
       <Row className="align-items-center g-5">
         <Col xs={12} lg>
-          <div className="hero-tag aparecer">
-            <span className="dot" /> UTN · Facultad Regional Tucumán
+          <div className="kicker d-flex align-items-center gap-2 mb-4 aparecer">
+            <span className="punto-vivo" /> UTN · Facultad Regional Tucumán
           </div>
 
-          <h1 className="aparecer d1">
-            Asistente Institucional <span className="accent">AI</span>da
-            <span className="cursor" />
+          <h1 className="portada-titulo serif fw-black mb-4 aparecer d1">
+            Asistente Institucional <span className="text-primary">AI</span>da
+            <span className="cursor text-primary" />
           </h1>
 
-          <p className="hero-sub aparecer d2">
+          <p className="d-flex flex-wrap fs-6 fw-medium mb-4 aparecer d2">
             {temas.map((tema, indice) => (
               <Fragment key={tema}>
-                {indice > 0 && <span className="sep">·</span>}
+                {indice > 0 && <span className="text-primary px-2">·</span>}
                 {tema}
               </Fragment>
             ))}
           </p>
 
-          <p className="hero-tagline aparecer d3">
-            Sistema de gestión de consultas y conocimiento académico con panel web y
-            asistente conversacional basado en IA para la Facultad Regional Tucumán.
+          <p className="prosa serif fst-italic fs-4 text-body-secondary aparecer d3">
+            Sistema de gestión de consultas y conocimiento académico con panel web y asistente
+            conversacional basado en IA para la Facultad Regional Tucumán.
           </p>
 
-          <div className="hero-meta aparecer d4">
+          <div className="d-flex flex-wrap gap-5 mt-5 aparecer d4">
             {metricas.map((metrica) => (
               <Metrica key={metrica.etiqueta} valor={metrica.valor} etiqueta={metrica.etiqueta} />
             ))}
           </div>
 
-          <Button as={Link} to="/asistente" variant="" className="hero-cta aparecer d4">
+          <Button as={Link} to="/asistente" variant="acento" className="meta px-4 py-3 mt-5 aparecer d4">
             Consultar ahora <span aria-hidden="true">›</span>
           </Button>
         </Col>
 
         <Col xs={12} lg="auto">
-          <figure className="hero-logo-marco aparecer d2 mb-0">
-            <Logo alt="Logo de AIda, asistente institucional de la UTN FRT" />
-            <figcaption className="hero-logo-pie">Asistente Institucional De Alumnos</figcaption>
+          <figure className="logo-marco position-relative d-flex flex-column align-items-center border rounded-2 bg-body-tertiary p-4 mb-0 aparecer d2">
+            <Logo className="portada-logo img-fluid position-relative" alt="Logo de AIda, asistente institucional de la UTN FRT" />
+            <figcaption className="meta text-body-tertiary text-center position-relative w-100 border-top pt-3 mt-4">
+              Asistente Institucional De Alumnos
+            </figcaption>
           </figure>
         </Col>
       </Row>

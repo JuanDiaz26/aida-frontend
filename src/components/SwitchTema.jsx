@@ -1,7 +1,10 @@
+import { Button } from 'react-bootstrap'
+
 function SwitchTema({ tema, onCambiar }) {
   return (
-    <button
-      className="tema-switch"
+    <Button
+      variant="aida"
+      className="tema-switch p-1"
       type="button"
       role="switch"
       aria-checked={tema === 'dark'}
@@ -26,7 +29,7 @@ function SwitchTema({ tema, onCambiar }) {
           </svg>
         </span>
       </span>
-    </button>
+    </Button>
   )
 }
 

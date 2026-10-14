@@ -3,7 +3,6 @@
   --bg:            #eef1f2;
   --bg-elev:       #ffffff;
   --bg-elev-2:     #f7f9fa;
-  --bg-term:       #0d0d0d;
   --bg-pie:        #e3e9eb;
   --border:        #ccd4d7;
   --border-soft:   #dde3e5;
@@ -11,10 +10,13 @@
   --text-dim:      #4d585e;
   --text-faint:    #5c686f;
   --accent:        #0a66c2;
-  --accent-2:      #00784a;
-  --accent-dim:    rgba(10, 102, 194, 0.10);
-  --accent-glow:   rgba(10, 102, 194, 0.30);
   --nav-accent:    #00784a;
+  --rgb-bg:        238, 241, 242;
+  --rgb-elev:      255, 255, 255;
+  --rgb-elev-2:    247, 249, 250;
+  --rgb-text:      16, 22, 26;
+  --rgb-accent:    10, 102, 194;
+  --rgb-verde:     0, 120, 74;
 
   --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --serif: 'Fraunces', Georgia, serif;
@@ -22,15 +24,6 @@
   --maxw: 1200px;
   --gutter: clamp(1.25rem, 4vw, 4rem);
 
-  --bs-body-bg: var(--bg);
-  --bs-body-color: var(--text);
-  --bs-border-color: var(--border);
-  --bs-font-sans-serif: var(--mono);
-  --bs-font-monospace: var(--mono);
-  --bs-link-color: var(--accent);
-  --bs-link-hover-color: var(--accent);
-  --bs-emphasis-color: var(--text);
-  --bs-border-radius: 3px;
 }
 
 /* Tema oscuro: es el principal del proyecto */
@@ -38,7 +31,6 @@
   --bg:            #0d0d0d;
   --bg-elev:       #141414;
   --bg-elev-2:     #1a1a1a;
-  --bg-term:       #0a0a0a;
   --bg-pie:        #0a0a0a;
   --border:        #262626;
   --border-soft:   #1f1f1f;
@@ -46,21 +38,103 @@
   --text-dim:      #9a9a9a;
   --text-faint:    #5c5c5c;
   --accent:        #0090ff;
-  --accent-2:      #00ff88;
-  --accent-dim:    rgba(0, 144, 255, 0.14);
-  --accent-glow:   rgba(0, 144, 255, 0.38);
   --nav-accent:    #00ff88;
+  --rgb-bg:        13, 13, 13;
+  --rgb-elev:      20, 20, 20;
+  --rgb-elev-2:    26, 26, 26;
+  --rgb-text:      232, 232, 232;
+  --rgb-accent:    0, 144, 255;
+  --rgb-verde:     0, 255, 136;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* Bootstrap toma la paleta de AIda: así sus utilidades (text-primary, text-success,
+   bg-body-tertiary, border...) y sus componentes pintan con nuestros colores.
+   Se repite en cada [data-bs-theme] para que un bloque pueda tener su propio tema */
+:root,
+[data-bs-theme] {
+  --bs-body-bg: var(--bg);
+  --bs-body-bg-rgb: var(--rgb-bg);
+  --bs-body-color: var(--text);
+  --bs-body-color-rgb: var(--rgb-text);
+  --bs-emphasis-color: var(--text);
+  --bs-secondary-color: var(--text-dim);
+  --bs-tertiary-color: var(--text-faint);
+  --bs-secondary-bg: var(--bg-elev-2);
+  --bs-secondary-bg-rgb: var(--rgb-elev-2);
+  --bs-tertiary-bg: var(--bg-elev);
+  --bs-tertiary-bg-rgb: var(--rgb-elev);
+  --bs-border-color: var(--border);
+  --bs-primary: var(--accent);
+  --bs-primary-rgb: var(--rgb-accent);
+  --bs-success: var(--nav-accent);
+  --bs-success-rgb: var(--rgb-verde);
+  --bs-link-color: var(--accent);
+  --bs-link-color-rgb: var(--rgb-accent);
+  --bs-link-hover-color: var(--accent);
+  --bs-link-hover-color-rgb: var(--rgb-accent);
+  --bs-body-font-family: var(--mono);
+  --bs-font-monospace: var(--mono);
+  --bs-body-line-height: 1.6;
+  --bs-border-radius: 3px;
+  color: var(--bs-body-color);
+}
 
-html { scroll-behavior: smooth; scroll-padding-top: 72px; overflow-x: hidden; }
+/* Componentes de Bootstrap con el aspecto de AIda */
+.card {
+  --bs-card-bg: var(--bs-tertiary-bg);
+  --bs-card-cap-bg: var(--bs-tertiary-bg);
+  --bs-card-color: var(--bs-body-color);
+  --bs-card-border-color: var(--bs-border-color);
+  --bs-card-border-radius: 0;
+  --bs-card-inner-border-radius: 0;
+}
+.list-group {
+  --bs-list-group-bg: transparent;
+  --bs-list-group-color: inherit;
+  --bs-list-group-border-color: var(--bs-border-color);
+}
 
+/* Variantes propias de botón: React Bootstrap arma la clase btn-{variant} */
+.btn-aida {
+  --bs-btn-color: var(--bs-success);
+  --bs-btn-border-color: var(--bs-border-color);
+  --bs-btn-hover-color: var(--bs-success);
+  --bs-btn-hover-bg: var(--bs-secondary-bg);
+  --bs-btn-hover-border-color: var(--bs-success);
+  --bs-btn-active-color: var(--bs-success);
+  --bs-btn-active-border-color: var(--bs-success);
+  --bs-btn-disabled-color: var(--bs-tertiary-color);
+  --bs-btn-disabled-border-color: var(--bs-border-color);
+}
+.btn-acento {
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-bg: rgba(var(--bs-primary-rgb), .12);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: var(--bs-primary);
+  --bs-btn-hover-bg: rgba(var(--bs-primary-rgb), .2);
+  --bs-btn-hover-border-color: var(--bs-primary);
+  --bs-btn-active-color: var(--bs-primary);
+  --bs-btn-active-border-color: var(--bs-primary);
+}
+
+/* Tipografía de la marca: lo único que Bootstrap no trae como utilidad */
+.serif { font-family: var(--serif); }
+.fw-black { font-weight: 900; }
+.kicker {
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--bs-primary);
+}
+.meta {
+  font-size: .66rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* El fondo, el color y la tipografía del body los pone Bootstrap con las variables de arriba */
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--mono);
-  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -80,16 +154,7 @@ body::before {
   mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, #000 30%, transparent 80%);
 }
 
-::selection { background: var(--accent); color: #000; }
-
-a { color: inherit; text-decoration: none; }
-
-img { max-width: 100%; height: auto; display: block; }
-
-:where(a, button, input):focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 2px;
-}
+::selection { background: var(--bs-primary); color: #000; }
 
 /* El container de Bootstrap se ajusta a las medidas del diseño en lugar de reemplazarlo */
 .container {
@@ -114,6 +179,5 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
