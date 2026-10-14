@@ -43,7 +43,13 @@ function Navegacion({ tema, onCambiarTema }) {
         <Navbar.Collapse id="navMenu" className="order-lg-2">
           <Nav className="ms-auto gap-1 py-2 py-lg-0">
             {secciones.map((seccion) => (
-              <Nav.Link key={seccion.ruta} as={NavLink} to={seccion.ruta} eventKey={seccion.ruta}>
+              <Nav.Link
+                key={seccion.ruta}
+                as={NavLink}
+                to={seccion.ruta}
+                eventKey={seccion.ruta}
+                className="text-nowrap"
+              >
                 <span className="text-success me-1">{seccion.numero}</span>
                 {seccion.nombre}
               </Nav.Link>
