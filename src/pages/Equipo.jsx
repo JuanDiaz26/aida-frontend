@@ -1,48 +1,45 @@
-import { Col, Container, Row } from 'react-bootstrap'
-import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
-import Seo from '../components/Seo.jsx'
+import { Col, Row } from 'react-bootstrap'
+import Pagina from '../components/Pagina.jsx'
 import Tarjeta from '../components/Tarjeta.jsx'
 import { integrantes } from '../data/integrantes.js'
 import { numerar } from '../utils/texto.js'
 
 function Equipo() {
   return (
-    <section className="section-pad">
-      <Seo
-        titulo="Equipo"
-        descripcion="Integrantes del equipo que desarrolla AIda, trabajo final de la Tecnicatura Universitaria en Programación de la UTN FRT."
-      />
-      <Container>
-        <EncabezadoSeccion numero="06" kicker="Equipo" titulo="Quiénes lo hacemos" />
+    <Pagina
+      seoTitulo="Equipo"
+      descripcion="Integrantes del equipo que desarrolla AIda, trabajo final de la Tecnicatura Universitaria en Programación de la UTN FRT."
+      numero="06"
+      kicker="Equipo"
+      titulo="Quiénes lo hacemos"
+    >
+      <p className="prosa small text-body-secondary mb-5 aparecer d1">
+        AIda es el trabajo final de la Tecnicatura Universitaria en Programación de la UTN
+        Facultad Regional Tucumán.
+      </p>
 
-        <p className="sec-intro aparecer d1">
-          AIda es el trabajo final de la Tecnicatura Universitaria en Programación de la UTN
-          Facultad Regional Tucumán.
-        </p>
-
-        <Row xs={1} md={2} className="tarjetas g-0 aparecer d2">
-          {integrantes.map((integrante, indice) => (
-            <Col key={integrante.github}>
-              <Tarjeta
-                indice={numerar(indice + 1)}
-                glifo="◉"
-                etiqueta="Integrante · TUP"
-                titulo={`${integrante.nombre} ${integrante.apellido}`}
+      <Row xs={1} md={2} className="tarjetas g-0 aparecer d2">
+        {integrantes.map((integrante, indice) => (
+          <Col key={integrante.github}>
+            <Tarjeta
+              indice={numerar(indice + 1)}
+              glifo="◉"
+              etiqueta="Integrante · TUP"
+              titulo={`${integrante.nombre} ${integrante.apellido}`}
+            >
+              GitHub:{' '}
+              <a
+                href={`https://github.com/${integrante.github}`}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                GitHub:{' '}
-                <a
-                  href={`https://github.com/${integrante.github}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  @{integrante.github}
-                </a>
-              </Tarjeta>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </section>
+                @{integrante.github}
+              </a>
+            </Tarjeta>
+          </Col>
+        ))}
+      </Row>
+    </Pagina>
   )
 }
 

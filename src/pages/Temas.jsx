@@ -1,29 +1,26 @@
-import { Col, Container, Row } from 'react-bootstrap'
-import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
+import { Col, Row } from 'react-bootstrap'
 import ItemTema from '../components/ItemTema.jsx'
-import Seo from '../components/Seo.jsx'
+import Pagina from '../components/Pagina.jsx'
 import { temas } from '../data/temas.js'
 import { numerar } from '../utils/texto.js'
 
 function Temas() {
   return (
-    <section className="section-pad">
-      <Seo
-        titulo="Temas"
-        descripcion="Qué le podés consultar a AIda: mesas de examen, inscripciones, correlativas, trámites administrativos, ingreso y calendario académico de la UTN FRT."
-      />
-      <Container>
-        <EncabezadoSeccion numero="02" kicker="Temas" titulo="Qué podés consultar" />
-
-        <Row as="ul" xs={1} sm={2} lg={3} className="temas-grid g-0 list-unstyled aparecer d1">
-          {temas.map((tema, indice) => (
-            <Col as="li" key={tema}>
-              <ItemTema numero={numerar(indice + 1)} texto={tema} />
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </section>
+    <Pagina
+      seoTitulo="Temas"
+      descripcion="Qué le podés consultar a AIda: mesas de examen, inscripciones, correlativas, trámites administrativos, ingreso y calendario académico de la UTN FRT."
+      numero="02"
+      kicker="Temas"
+      titulo="Qué podés consultar"
+    >
+      <Row as="ul" xs={1} sm={2} lg={3} className="temas-grid g-0 list-unstyled aparecer d1">
+        {temas.map((tema, indice) => (
+          <Col as="li" key={tema}>
+            <ItemTema numero={numerar(indice + 1)} texto={tema} />
+          </Col>
+        ))}
+      </Row>
+    </Pagina>
   )
 }
 

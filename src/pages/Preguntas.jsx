@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { Accordion, Container, Form } from 'react-bootstrap'
+import { Accordion, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
-import Seo from '../components/Seo.jsx'
+import Pagina from '../components/Pagina.jsx'
 import { preguntas } from '../data/preguntas.js'
 import { normalizarTexto, numerar } from '../utils/texto.js'
 import '../styles/preguntas.css'
@@ -31,46 +30,44 @@ function Preguntas() {
   )
 
   return (
-    <section className="section-pad">
-      <Seo
-        titulo="Preguntas frecuentes"
-        descripcion="Dudas frecuentes sobre AIda, el asistente de la UTN FRT: qué responde, cómo consultar las mesas de examen, qué datos usa y qué pasa cuando no sabe la respuesta."
-      />
+    <Pagina
+      seoTitulo="Preguntas frecuentes"
+      descripcion="Dudas frecuentes sobre AIda, el asistente de la UTN FRT: qué responde, cómo consultar las mesas de examen, qué datos usa y qué pasa cuando no sabe la respuesta."
+      numero="05"
+      kicker="Preguntas"
+      titulo="Dudas frecuentes"
+    >
       <script type="application/ld+json">{JSON.stringify(datosEstructurados)}</script>
 
-      <Container>
-        <EncabezadoSeccion numero="05" kicker="Preguntas" titulo="Dudas frecuentes" />
+      <Form.Control
+        type="search"
+        className="faq-buscador aparecer d1"
+        placeholder="Buscar en las preguntas (ej: mesas, trámite)"
+        aria-label="Buscar en las preguntas frecuentes"
+        value={busqueda}
+        onChange={(evento) => setBusqueda(evento.target.value)}
+      />
 
-        <Form.Control
-          type="search"
-          className="faq-buscador aparecer d1"
-          placeholder="Buscar en las preguntas (ej: mesas, trámite)"
-          aria-label="Buscar en las preguntas frecuentes"
-          value={busqueda}
-          onChange={(evento) => setBusqueda(evento.target.value)}
-        />
-
-        {preguntasFiltradas.length > 0 ? (
-          <Accordion className="faq aparecer d2">
-            {/* eventKey es la pregunta y no el índice: al filtrar, los índices cambian */}
-            {preguntasFiltradas.map((item, indice) => (
-              <Accordion.Item key={item.pregunta} eventKey={item.pregunta}>
-                <Accordion.Header className="faq-header">
-                  <span className="n">{numerar(indice + 1)}</span>
-                  {item.pregunta}
-                </Accordion.Header>
-                <Accordion.Body className="faq-cuerpo">{item.respuesta}</Accordion.Body>
-              </Accordion.Item>
-            ))}
-          </Accordion>
-        ) : (
-          <p className="faq-vacio">
-            No encontramos preguntas sobre "{busqueda}". Probá{' '}
-            <Link to="/asistente">preguntarle a AIda</Link>.
-          </p>
-        )}
-      </Container>
-    </section>
+      {preguntasFiltradas.length > 0 ? (
+        <Accordion className="faq aparecer d2">
+          {/* eventKey es la pregunta y no el índice: al filtrar, los índices cambian */}
+          {preguntasFiltradas.map((item, indice) => (
+            <Accordion.Item key={item.pregunta} eventKey={item.pregunta}>
+              <Accordion.Header className="faq-header">
+                <span className="n">{numerar(indice + 1)}</span>
+                {item.pregunta}
+              </Accordion.Header>
+              <Accordion.Body className="faq-cuerpo">{item.respuesta}</Accordion.Body>
+            </Accordion.Item>
+          ))}
+        </Accordion>
+      ) : (
+        <p className="faq-vacio">
+          No encontramos preguntas sobre "{busqueda}". Probá{' '}
+          <Link to="/asistente">preguntarle a AIda</Link>.
+        </p>
+      )}
+    </Pagina>
   )
 }
 

@@ -10,7 +10,7 @@ function Pie() {
         <Row className="g-4">
           <Col xs={12} md={5}>
             <p className="pie-marca">
-              Asistente Institucional <span className="accent">AI</span>da
+              Asistente Institucional <span className="text-primary">AI</span>da
             </p>
             <Logo className="pie-logo" alt="Logo de AIda, asistente institucional de la UTN FRT" />
           </Col>
@@ -37,7 +37,7 @@ function Pie() {
 
         <div className="pie-fondo">
           <span>
-            <span className="accent">$</span> echo "asistente institucional" — 2026
+            <span className="text-primary">$</span> echo "asistente institucional" — 2026
           </span>
           <span>Trabajo Final — Tecnicatura Universitaria en Programación</span>
         </div>

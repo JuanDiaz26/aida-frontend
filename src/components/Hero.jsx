@@ -23,7 +23,7 @@ function Hero() {
           </div>
 
           <h1 className="aparecer d1">
-            Asistente Institucional <span className="accent">AI</span>da
+            Asistente Institucional <span className="text-primary">AI</span>da
             <span className="cursor" />
           </h1>
 

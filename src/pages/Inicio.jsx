@@ -16,7 +16,7 @@ function Inicio() {
           {/* En pantallas grandes el calendario queda al costado; en celular baja debajo de la grilla */}
           <Row className="g-4">
             <Col lg={8}>
-              <h2 id="titulo-explorar" className="explorar-titulo">
+              <h2 id="titulo-explorar" className="kicker mb-3">
                 Explorá el sitio
               </h2>
               <Row as="ul" xs={1} sm={2} className="temas-grid g-0 list-unstyled mb-0">
