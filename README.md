@@ -203,7 +203,7 @@ Las tres son públicas, no piden registro ni clave, y permiten consultas desde e
 { "current": { "temperature_2m": 14.2, "weather_code": 51 }, "daily": { "temperature_2m_max": [18.1], "temperature_2m_min": [13.6] } }
 ```
 
-**GitHub.** Por cada integrante se piden tres cosas: su perfil público, del que se usan `avatar_url`, `bio` y `public_repos`, y sus commits en cada uno de los dos repositorios de AIda, de los que solo se usa la fecha. Sin clave, GitHub permite 60 pedidos por hora por conexión; cada visita a Equipo hace 6 (3 por integrante).
+**GitHub.** Por cada integrante se piden tres cosas: su perfil público, del que se usan `avatar_url`, `bio` y `public_repos`, y sus commits en cada uno de los dos repositorios de AIda, de los que solo se usa la fecha. Si un integrante no completó la biografía en GitHub, se muestra la descripción guardada en `data/integrantes.js`. Sin clave, GitHub permite 60 pedidos por hora por conexión; cada visita a Equipo hace 6 (3 por integrante).
 
 ```json
 { "login": "JuanDiaz26", "avatar_url": "https://avatars.githubusercontent.com/...", "bio": "...", "public_repos": 19 }

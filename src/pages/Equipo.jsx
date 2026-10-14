@@ -37,6 +37,8 @@ function Equipo() {
       <Row xs={1} md={2} className="g-0 border-top border-start aparecer d2">
         {integrantes.map((integrante, indice) => {
           const perfil = buscarPerfil(integrante.github)
+          // Primero la biografía de GitHub; si está vacía, la descripción guardada en integrantes.js
+          const descripcion = perfil?.bio || integrante.descripcion
 
           return (
             <Col key={integrante.github} className="border-end border-bottom">
@@ -64,7 +66,7 @@ function Equipo() {
                     Cargando perfil de GitHub…
                   </span>
                 )}
-                {perfil?.bio && <span className="d-block mb-2">{perfil.bio}</span>}
+                {descripcion && <span className="d-block mb-2">{descripcion}</span>}
                 {perfil && <span className="d-block mb-2">{perfil.public_repos} repositorios públicos</span>}
                 {perfil && <ActividadGitHub fechas={perfil.fechasCommits} />}
                 GitHub:{' '}
