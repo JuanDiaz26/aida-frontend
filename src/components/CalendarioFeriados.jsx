@@ -56,7 +56,7 @@ function CalendarioFeriados() {
   }
 
   return (
-    <aside className="d-flex flex-column h-100" aria-labelledby="titulo-calendario">
+    <aside className="d-flex flex-column flex-grow-1" aria-labelledby="titulo-calendario">
       {/* El título va afuera de la tarjeta para quedar alineado con "Explorá el sitio" */}
       <h2 id="titulo-calendario" className="kicker mb-3">
         Calendario académico

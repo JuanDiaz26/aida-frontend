@@ -1,5 +1,6 @@
 import { Col, Container, Row } from 'react-bootstrap'
 import CalendarioFeriados from '../components/CalendarioFeriados.jsx'
+import ClimaHoy from '../components/ClimaHoy.jsx'
 import Hero from '../components/Hero.jsx'
 import ItemTema from '../components/ItemTema.jsx'
 import Seo from '../components/Seo.jsx'
@@ -28,7 +29,8 @@ function Inicio() {
               </Row>
             </Col>
 
-            <Col lg={4}>
+            <Col lg={4} className="d-flex flex-column gap-4">
+              <ClimaHoy />
               <CalendarioFeriados />
             </Col>
           </Row>
