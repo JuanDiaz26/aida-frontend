@@ -1,33 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Alert, Button, Card, ListGroup, Spinner } from 'react-bootstrap'
-import Swal from 'sweetalert2'
 import ItemFeriado from './ItemFeriado.jsx'
+import { useConsulta } from '../hooks/useConsulta.js'
 import { obtenerFeriados } from '../services/feriados.js'
 import { MESES, convertirFecha } from '../utils/fechas.js'
 
-// Toast: un aviso chico en una esquina que se cierra solo, para no tapar la portada.
-// Los colores salen de las variables del tema, así acompaña al modo claro y al oscuro
-const avisarError = Swal.mixin({
-  toast: true,
-  position: 'bottom-end',
-  icon: 'error',
-  showConfirmButton: false,
-  timer: 6000,
-  timerProgressBar: true,
-  background: 'var(--bg-elev)',
-  color: 'var(--text)',
-})
-
-// Distingue si la API respondió con un error o si directamente no hubo conexión
-function describirError(error) {
-  if (error.response) {
-    return `El servicio de feriados respondió con un error (código ${error.response.status}).`
-  }
-  if (error.request) {
-    return 'No pudimos conectarnos con el servicio de feriados. Revisá tu conexión.'
-  }
-  return error.message
-}
+// Fuera del componente para que sea siempre la misma función (ver useConsulta).
+// Pide el año entero: moverse entre meses no vuelve a consultar, solo filtra lo que llegó
+const pedirFeriados = (signal) => obtenerFeriados(new Date().getFullYear(), signal)
 
 function CalendarioFeriados() {
   // La fecha se toma una sola vez, al montar: llamar a new Date() en cada render
@@ -36,35 +16,10 @@ function CalendarioFeriados() {
   const [hoy] = useState(() => new Date())
   const anioActual = hoy.getFullYear()
   const mesActual = hoy.getMonth()
-
-  const [feriados, setFeriados] = useState([])
-  const [cargando, setCargando] = useState(true)
-  const [error, setError] = useState('')
   const [mes, setMes] = useState(mesActual)
 
-  // La API se consulta al mostrar el calendario y trae el año entero.
-  // Moverse entre meses no vuelve a pedir nada: solo filtra lo que ya llegó
-  useEffect(() => {
-    const controlador = new AbortController()
-
-    async function cargarFeriados() {
-      try {
-        setFeriados(await obtenerFeriados(anioActual, controlador.signal))
-      } catch (errorPedido) {
-        if (controlador.signal.aborted) return
-        const mensaje = describirError(errorPedido)
-        setError(mensaje)
-        avisarError.fire({ title: 'No pudimos cargar el calendario', text: mensaje })
-      } finally {
-        if (!controlador.signal.aborted) setCargando(false)
-      }
-    }
-
-    cargarFeriados()
-
-    // Si el componente se desmonta antes de que llegue la respuesta, se cancela el pedido
-    return () => controlador.abort()
-  }, [anioActual])
+  const { datos, cargando, error } = useConsulta(pedirFeriados, 'feriados')
+  const feriados = datos || []
 
   const feriadosDelMes = feriados.filter((feriado) => convertirFecha(feriado.fecha).getMonth() === mes)
 
@@ -73,7 +28,7 @@ function CalendarioFeriados() {
     if (cargando) {
       return (
         <p className="d-flex align-items-center gap-2 small text-body-secondary py-3 mb-0">
-          <Spinner animation="border" size="sm" variant="primary" role="status" aria-hidden="true" />
+          <Spinner as="span" animation="border" size="sm" variant="primary" role="status" aria-hidden="true" />
           Cargando feriados…
         </p>
       )
@@ -101,7 +56,7 @@ function CalendarioFeriados() {
   }
 
   return (
-    <aside className="d-flex flex-column h-100" aria-labelledby="titulo-calendario">
+    <aside className="d-flex flex-column flex-grow-1" aria-labelledby="titulo-calendario">
       {/* El título va afuera de la tarjeta para quedar alineado con "Explorá el sitio" */}
       <h2 id="titulo-calendario" className="kicker mb-3">
         Calendario académico
