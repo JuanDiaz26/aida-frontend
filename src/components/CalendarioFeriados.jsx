@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Button, Spinner } from 'react-bootstrap'
+import { Alert, Button, Card, ListGroup, Spinner } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import ItemFeriado from './ItemFeriado.jsx'
 import { obtenerFeriados } from '../services/feriados.js'
 import { MESES, convertirFecha } from '../utils/fechas.js'
-import '../styles/calendario.css'
 
 // Toast: un aviso chico en una esquina que se cierra solo, para no tapar la portada.
 // Los colores salen de las variables del tema, así acompaña al modo claro y al oscuro
@@ -17,7 +16,6 @@ const avisarError = Swal.mixin({
   timerProgressBar: true,
   background: 'var(--bg-elev)',
   color: 'var(--text)',
-  customClass: { popup: 'aviso-toast' },
 })
 
 // Distingue si la API respondió con un error o si directamente no hubo conexión
@@ -74,21 +72,21 @@ function CalendarioFeriados() {
   function contenido() {
     if (cargando) {
       return (
-        <p className="calendario-estado">
-          <Spinner animation="border" size="sm" role="status" aria-hidden="true" />
+        <p className="d-flex align-items-center gap-2 small text-body-secondary py-3 mb-0">
+          <Spinner animation="border" size="sm" variant="primary" role="status" aria-hidden="true" />
           Cargando feriados…
         </p>
       )
     }
 
-    if (error) return <p className="calendario-estado calendario-error">{error}</p>
+    if (error) return <Alert variant="danger" className="small mt-3 mb-0">{error}</Alert>
 
     if (feriadosDelMes.length === 0) {
-      return <p className="calendario-estado">No hay feriados en {MESES[mes].toLowerCase()}.</p>
+      return <p className="small text-body-secondary py-3 mb-0">No hay feriados en {MESES[mes].toLowerCase()}.</p>
     }
 
     return (
-      <ul className="calendario-lista list-unstyled">
+      <ListGroup as="ul" variant="flush">
         {feriadosDelMes.map((feriado) => (
           <ItemFeriado
             key={feriado.fecha + feriado.nombre}
@@ -98,34 +96,34 @@ function CalendarioFeriados() {
             hoy={hoy}
           />
         ))}
-      </ul>
+      </ListGroup>
     )
   }
 
   return (
-    <aside className="calendario" aria-labelledby="titulo-calendario">
-      <h2 id="titulo-calendario" className="calendario-titulo">
+    <aside className="d-flex flex-column h-100" aria-labelledby="titulo-calendario">
+      {/* El título va afuera de la tarjeta para quedar alineado con "Explorá el sitio" */}
+      <h2 id="titulo-calendario" className="kicker mb-3">
         Calendario académico
       </h2>
 
-      {/* El título va afuera de la caja para quedar alineado con "Explorá el sitio" */}
-      <div className="calendario-caja">
-        <div className="calendario-nav">
+      <Card className="flex-grow-1 px-4 py-3">
+        <div className="d-flex align-items-center gap-2 pb-3 border-bottom">
           <Button
-            variant=""
-            className="calendario-flecha"
+            variant="aida"
+            size="sm"
             onClick={() => setMes((actual) => Math.max(actual - 1, 0))}
             disabled={mes === 0}
             aria-label="Mes anterior"
           >
             ‹
           </Button>
-          <h3 className="calendario-mes" aria-live="polite">
+          <h3 className="serif fw-semibold fs-5 text-center flex-grow-1 mb-0" aria-live="polite">
             {MESES[mes]} {anioActual}
           </h3>
           <Button
-            variant=""
-            className="calendario-flecha"
+            variant="aida"
+            size="sm"
             onClick={() => setMes((actual) => Math.min(actual + 1, 11))}
             disabled={mes === 11}
             aria-label="Mes siguiente"
@@ -137,11 +135,11 @@ function CalendarioFeriados() {
         {contenido()}
 
         {mes !== mesActual && (
-          <Button variant="" className="calendario-hoy" onClick={() => setMes(mesActual)}>
+          <Button variant="aida" size="sm" className="meta align-self-start mt-3" onClick={() => setMes(mesActual)}>
             Volver a hoy
           </Button>
         )}
-      </div>
+      </Card>
     </aside>
   )
 }
