@@ -28,7 +28,7 @@ function CalendarioFeriados() {
     if (cargando) {
       return (
         <p className="d-flex align-items-center gap-2 small text-body-secondary py-3 mb-0">
-          <Spinner animation="border" size="sm" variant="primary" role="status" aria-hidden="true" />
+          <Spinner as="span" animation="border" size="sm" variant="primary" role="status" aria-hidden="true" />
           Cargando feriados…
         </p>
       )

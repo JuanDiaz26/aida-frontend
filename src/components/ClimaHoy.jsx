@@ -11,7 +11,7 @@ function ClimaHoy() {
     if (cargando) {
       return (
         <p className="d-flex align-items-center gap-2 small text-body-secondary mb-0">
-          <Spinner animation="border" size="sm" variant="primary" role="status" aria-hidden="true" />
+          <Spinner as="span" animation="border" size="sm" variant="primary" role="status" aria-hidden="true" />
           Consultando el clima…
         </p>
       )
