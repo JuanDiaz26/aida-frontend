@@ -13,9 +13,9 @@ function Temas() {
       kicker="Temas"
       titulo="Qué podés consultar"
     >
-      <Row as="ul" xs={1} sm={2} lg={3} className="temas-grid g-0 list-unstyled aparecer d1">
+      <Row as="ul" xs={1} sm={2} lg={3} className="g-0 border-top border-start list-unstyled aparecer d1">
         {temas.map((tema, indice) => (
-          <Col as="li" key={tema}>
+          <Col as="li" key={tema} className="border-end border-bottom">
             <ItemTema numero={numerar(indice + 1)} texto={tema} />
           </Col>
         ))}

@@ -12,3 +12,33 @@
   color: transparent;
   -webkit-text-stroke: 1.5px var(--bs-primary);
 }
+
+/* Superficie de tarjetas y temas: se aclara al pasar el mouse */
+.superficie {
+  background: var(--bs-tertiary-bg);
+  transition: background .25s;
+}
+.superficie:hover { background: var(--bs-secondary-bg); }
+
+/* Línea que se despliega debajo de una tarjeta al pasar el mouse */
+.tarjeta::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--bs-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s;
+}
+.tarjeta:hover::after { transform: none; }
+
+/* Los temas que son enlaces muestran una flecha al pasar el mouse */
+a.tema::after {
+  content: "›";
+  margin-left: auto;
+  color: var(--bs-primary);
+  opacity: 0;
+  transition: opacity .2s;
+}
+a.tema:hover::after { opacity: 1; }

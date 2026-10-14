@@ -18,9 +18,9 @@ function Equipo() {
         Facultad Regional Tucumán.
       </p>
 
-      <Row xs={1} md={2} className="tarjetas g-0 aparecer d2">
+      <Row xs={1} md={2} className="g-0 border-top border-start aparecer d2">
         {integrantes.map((integrante, indice) => (
-          <Col key={integrante.github}>
+          <Col key={integrante.github} className="border-end border-bottom">
             <Tarjeta
               indice={numerar(indice + 1)}
               glifo="◉"
@@ -30,6 +30,7 @@ function Equipo() {
               GitHub:{' '}
               <a
                 href={`https://github.com/${integrante.github}`}
+                className="link-primary"
                 target="_blank"
                 rel="noopener noreferrer"
               >
