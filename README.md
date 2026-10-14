@@ -23,7 +23,7 @@ AIda centraliza la información académica de la facultad (mesas de examen, insc
 - Página 404 para rutas que no existen.
 - Calendario académico en el inicio con los feriados del año, traídos de una API pública y navegables mes por mes.
 - Clima de hoy en San Miguel de Tucumán en el inicio, con la temperatura actual, la máxima y la mínima.
-- Perfiles de GitHub de los integrantes en la página Equipo (foto, biografía y cantidad de repositorios), consultados en vivo.
+- Perfiles de GitHub de los integrantes en la página Equipo (foto, biografía y cantidad de repositorios) y un gráfico con los commits de cada uno, semana por semana, en los dos repositorios de AIda.
 
 ## Tecnologías
 - **React 19** + **Vite**
@@ -69,7 +69,8 @@ src/
 │   ├── Mensaje.jsx
 │   ├── CalendarioFeriados.jsx
 │   ├── ItemFeriado.jsx
-│   └── ClimaHoy.jsx
+│   ├── ClimaHoy.jsx
+│   └── ActividadGitHub.jsx
 ├── pages/           una página por ruta
 │   ├── Inicio.jsx
 │   ├── ComoFunciona.jsx
@@ -82,7 +83,7 @@ src/
 ├── data/            datos que alimentan a los componentes
 ├── hooks/           hook propio useConsulta, para pedir datos a las APIs
 ├── services/        pedidos a APIs externas (feriados, clima y GitHub)
-├── utils/           funciones que usan varios componentes (texto, fechas, clima y avisos)
+├── utils/           funciones que usan varios componentes (texto, fechas, clima, actividad y avisos)
 ├── styles/          tema.css (colores y variables de Bootstrap) y componentes.css
 ├── App.jsx          estado del tema y definición de las rutas
 └── main.jsx
@@ -125,6 +126,7 @@ Los enlaces del navbar usan `NavLink`, que agrega la clase `active` a la página
 - **`CalendarioFeriados`** consulta la API de feriados y los muestra mes por mes dentro de un `<aside>` (ver [Consumo de APIs](#consumo-de-apis-públicas-tp-8)).
 - **`ItemFeriado`** recibe `fecha`, `nombre`, `tipo` y `hoy`, y dibuja un feriado con los días que faltan.
 - **`ClimaHoy`** consulta la API del clima y muestra la temperatura de San Miguel de Tucumán en otro `<aside>`, arriba del calendario.
+- **`ActividadGitHub`** recibe `fechas` (las de los commits de un integrante) y dibuja una barra por semana, desde que arrancó el proyecto hasta hoy.
 
 ## Uso de `map()`
 Ninguna lista está escrita a mano en el JSX: los datos viven en `src/data/` y se recorren con `map()`.
@@ -136,7 +138,8 @@ Ninguna lista está escrita a mano en el JSX: los datos viven en `src/data/` y s
 - Integrantes en la página Equipo y en el pie → `integrantes.js`
 - Temas y métricas de la portada → constantes dentro de `Hero.jsx`
 - Feriados del mes en el calendario → datos que llegan de la API
-- Pedidos a GitHub → `services/github.js` arma un pedido por cada integrante con `map()` y los lanza juntos con `Promise.all`
+- Pedidos a GitHub → `services/github.js` arma los pedidos de cada integrante con `map()` y los lanza juntos con `Promise.all`
+- Barras del gráfico de actividad → semanas que arma `utils/actividad.js`
 
 ## Hooks: `useState` y `useEffect`
 
@@ -160,6 +163,7 @@ Ninguna lista está escrita a mano en el JSX: los datos viven en `src/data/` y s
 | `Navegacion` | `abierto`: si el menú hamburguesa está desplegado | Al tocar el botón y al elegir una sección |
 | `CalendarioFeriados` | `mes`: el mes que se está mirando | Con las flechas y con "Volver a hoy" |
 | `CalendarioFeriados` | `hoy`: la fecha de hoy | Nunca: se toma una sola vez al montar |
+| `ActividadGitHub` | `hoy`: la fecha de hoy, hasta donde llega el gráfico | Nunca: se toma una sola vez al montar |
 | `useConsulta` | `datos`: lo que devuelve la API | Cuando llega la respuesta |
 | `useConsulta` | `cargando`: si la consulta sigue en curso | Arranca en `true` y pasa a `false` al terminar, con éxito o con error |
 | `useConsulta` | `error`: el mensaje si la consulta falla | Cuando la API responde con error o no hay conexión |
@@ -183,7 +187,7 @@ Ninguna lista está escrita a mano en el JSX: los datos viven en `src/data/` y s
 |---|---|---|
 | [ArgentinaDatos](https://api.argentinadatos.com) | `GET /v1/feriados/{año}` | Calendario académico, en el inicio |
 | [Open-Meteo](https://open-meteo.com) | `GET /v1/forecast` con la ubicación como parámetros | "Hoy en San Miguel de Tucumán", en el inicio |
-| [GitHub](https://docs.github.com/es/rest/users/users) | `GET /users/{usuario}`, uno por integrante | Página Equipo |
+| [GitHub](https://docs.github.com/es/rest) | `GET /users/{usuario}` y `GET /repos/{repo}/commits?author={usuario}` | Página Equipo |
 
 Las tres son públicas, no piden registro ni clave, y permiten consultas desde el navegador.
 
@@ -199,7 +203,7 @@ Las tres son públicas, no piden registro ni clave, y permiten consultas desde e
 { "current": { "temperature_2m": 14.2, "weather_code": 51 }, "daily": { "temperature_2m_max": [18.1], "temperature_2m_min": [13.6] } }
 ```
 
-**GitHub.** Devuelve el perfil público de cada integrante; se usan `avatar_url`, `bio` y `public_repos`. Sin clave permite 60 pedidos por hora, de sobra para la página.
+**GitHub.** Por cada integrante se piden tres cosas: su perfil público, del que se usan `avatar_url`, `bio` y `public_repos`, y sus commits en cada uno de los dos repositorios de AIda, de los que solo se usa la fecha. Sin clave, GitHub permite 60 pedidos por hora por conexión; cada visita a Equipo hace 6 (3 por integrante).
 
 ```json
 { "login": "JuanDiaz26", "avatar_url": "https://avatars.githubusercontent.com/...", "bio": "...", "public_repos": 19 }
@@ -208,7 +212,7 @@ Las tres son públicas, no piden registro ni clave, y permiten consultas desde e
 ### Dónde se ve
 - **Calendario:** en el inicio, al costado de "Explorá el sitio", como un `<aside>`. Muestra los feriados del mes, cuántos días faltan para cada uno, y se puede recorrer con las flechas de enero a diciembre del año actual. El año sale de la fecha real, así que desde enero el calendario pasa solo al año nuevo, sin tocar el código.
 - **Clima:** arriba del calendario, con un ícono según el estado del cielo.
-- **GitHub:** en cada tarjeta de Equipo, la foto de perfil, la biografía y la cantidad de repositorios públicos.
+- **GitHub:** en cada tarjeta de Equipo, la foto de perfil, la biografía, la cantidad de repositorios públicos y el gráfico de actividad. Cada barra es una semana y su altura depende de los commits de esa semana: la semana con más commits ocupa toda la altura. Al pasar el mouse se ve la fecha y la cantidad. El gráfico de contribuciones de GitHub (los cuadraditos verdes) no se puede pedir sin una clave, y una clave no puede ir en el frontend porque quedaría a la vista de todos; por eso el gráfico se arma con las fechas de los commits.
 
 ### Variables de entorno
 | Variable | Archivo que la usa |
@@ -233,7 +237,7 @@ Recibe la función que hace el pedido y el nombre del servicio, que se usa en lo
 ### Cómo funciona
 1. `useEffect`, dentro de `useConsulta`, ejecuta la consulta al montar el componente.
 2. Mientras tanto `cargando` vale `true` y se ve el `Spinner` de React Bootstrap.
-3. El servicio hace el pedido con **Axios**. En GitHub, `Promise.all` lanza los dos pedidos juntos y espera a que lleguen los dos.
+3. El servicio hace el pedido con **Axios**. En GitHub, `Promise.all` lanza juntos los pedidos de los dos integrantes y espera a que lleguen todos.
 4. Si sale bien, los datos se guardan con `setDatos`. Si sale mal, el mensaje va a `setError` y aparece el aviso de **SweetAlert2**.
 5. En los dos casos, `cargando` pasa a `false` en el bloque `finally`.
 
