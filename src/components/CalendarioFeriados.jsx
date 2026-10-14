@@ -70,6 +70,38 @@ function CalendarioFeriados() {
 
   const feriadosDelMes = feriados.filter((feriado) => convertirFecha(feriado.fecha).getMonth() === mes)
 
+  // Un solo estado a la vez: cada condición se evalúa una vez, de arriba hacia abajo
+  function contenido() {
+    if (cargando) {
+      return (
+        <p className="calendario-estado">
+          <Spinner animation="border" size="sm" role="status" aria-hidden="true" />
+          Cargando feriados…
+        </p>
+      )
+    }
+
+    if (error) return <p className="calendario-estado calendario-error">{error}</p>
+
+    if (feriadosDelMes.length === 0) {
+      return <p className="calendario-estado">No hay feriados en {MESES[mes].toLowerCase()}.</p>
+    }
+
+    return (
+      <ul className="calendario-lista list-unstyled">
+        {feriadosDelMes.map((feriado) => (
+          <ItemFeriado
+            key={feriado.fecha + feriado.nombre}
+            fecha={feriado.fecha}
+            nombre={feriado.nombre}
+            tipo={feriado.tipo}
+            hoy={hoy}
+          />
+        ))}
+      </ul>
+    )
+  }
+
   return (
     <aside className="calendario" aria-labelledby="titulo-calendario">
       <h2 id="titulo-calendario" className="calendario-titulo">
@@ -102,32 +134,7 @@ function CalendarioFeriados() {
           </Button>
         </div>
 
-        {cargando && (
-          <p className="calendario-estado">
-            <Spinner animation="border" size="sm" role="status" aria-hidden="true" />
-            Cargando feriados…
-          </p>
-        )}
-
-        {!cargando && error && <p className="calendario-estado calendario-error">{error}</p>}
-
-        {!cargando && !error && feriadosDelMes.length === 0 && (
-          <p className="calendario-estado">No hay feriados en {MESES[mes].toLowerCase()}.</p>
-        )}
-
-        {!cargando && !error && feriadosDelMes.length > 0 && (
-          <ul className="calendario-lista list-unstyled">
-            {feriadosDelMes.map((feriado) => (
-              <ItemFeriado
-                key={feriado.fecha + feriado.nombre}
-                fecha={feriado.fecha}
-                nombre={feriado.nombre}
-                tipo={feriado.tipo}
-                hoy={hoy}
-              />
-            ))}
-          </ul>
-        )}
+        {contenido()}
 
         {mes !== mesActual && (
           <Button variant="" className="calendario-hoy" onClick={() => setMes(mesActual)}>
