@@ -26,8 +26,9 @@ function Equipo() {
       titulo="Quiénes lo hacemos"
     >
       <p className="prosa small text-body-secondary mb-5 aparecer d1">
-        AIda es el trabajo final de la Tecnicatura Universitaria en Programación de la UTN Facultad
-        Regional Tucumán. Los datos de cada integrante se consultan en vivo a GitHub.
+        Somos Exequiel y Juan, compañeros de la Tecnicatura Universitaria en Programación de la UTN
+        FRT, y AIda es nuestro trabajo final. Exequiel creó el primer repositorio, en HTML, CSS y
+        JavaScript, y Juan creó este, en React. Los dos trabajamos en ambos.
       </p>
 
       {error && <Alert variant="danger" className="small mb-4">{error}</Alert>}
