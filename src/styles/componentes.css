@@ -196,6 +196,9 @@ a.tema:hover::after { opacity: 1; }
   color: var(--bs-primary);
 }
 
+/* Gráfico de actividad de Equipo: la altura de cada barra se calcula en el componente */
+.actividad { height: 3rem; }
+
 /* Pie */
 .pie { background: var(--bg-pie); }
 .pie-logo { height: 68px; }

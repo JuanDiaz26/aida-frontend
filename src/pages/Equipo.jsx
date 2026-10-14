@@ -1,4 +1,5 @@
 import { Alert, Col, Row, Spinner } from 'react-bootstrap'
+import ActividadGitHub from '../components/ActividadGitHub.jsx'
 import Pagina from '../components/Pagina.jsx'
 import Tarjeta from '../components/Tarjeta.jsx'
 import { integrantes } from '../data/integrantes.js'
@@ -65,6 +66,7 @@ function Equipo() {
                 )}
                 {perfil?.bio && <span className="d-block mb-2">{perfil.bio}</span>}
                 {perfil && <span className="d-block mb-2">{perfil.public_repos} repositorios públicos</span>}
+                {perfil && <ActividadGitHub fechas={perfil.fechasCommits} />}
                 GitHub:{' '}
                 <a
                   href={`https://github.com/${integrante.github}`}
