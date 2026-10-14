@@ -1,14 +1,20 @@
 function Mensaje({ tipo, texto, hora, fuente }) {
+  const esRespuesta = tipo === 'respuesta'
+
   return (
-    <div className={`msg msg-${tipo}`}>
-      <div className="msg-meta">
-        <span className="msg-quien">{tipo === 'consulta' ? 'vos' : 'aida'}</span>
+    <div>
+      <div className="d-flex align-items-center gap-2 mb-2 meta text-body-tertiary">
+        <span className={`border rounded-1 px-2 ${esRespuesta ? 'border-success text-success' : ''}`}>
+          {esRespuesta ? 'aida' : 'vos'}
+        </span>
         <span>{hora}</span>
       </div>
-      <div className="msg-cuerpo">
+      <div className={`border-start border-2 ps-3 ${esRespuesta ? 'border-success text-body' : 'text-body-secondary'}`}>
         {texto}
         {fuente && (
-          <span className="msg-fuente">fuente: {fuente} · actualización: pendiente de carga</span>
+          <span className="d-block mt-2 meta text-body-tertiary">
+            fuente: {fuente} · actualización: pendiente de carga
+          </span>
         )}
       </div>
     </div>

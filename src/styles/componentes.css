@@ -158,3 +158,15 @@ a.tema:hover::after { opacity: 1; }
 }
 @keyframes pulso { 50% { opacity: .25; } }
 @keyframes titilar { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+/* Consola del asistente: alto del registro y los tres puntos de la terminal */
+.consola { max-width: 760px; }
+.consola .btn-sm { --bs-btn-font-size: .72rem; }
+.consola-registro {
+  min-height: 220px;
+  max-height: 340px;
+}
+.punto-terminal {
+  width: 11px;
+  height: 11px;
+}
