@@ -42,3 +42,76 @@ a.tema::after {
   transition: opacity .2s;
 }
 a.tema:hover::after { opacity: 1; }
+
+/* Navbar: los colores van por las variables del Navbar de Bootstrap */
+.navegacion {
+  --bs-navbar-color: var(--bs-secondary-color);
+  --bs-navbar-hover-color: var(--bs-success);
+  --bs-navbar-active-color: var(--bs-success);
+  --bs-navbar-brand-color: var(--bs-body-color);
+  --bs-navbar-brand-hover-color: var(--bs-body-color);
+  --bs-navbar-toggler-border-color: var(--bs-border-color);
+  --bs-navbar-toggler-focus-width: 0;
+  background: rgba(var(--bs-body-bg-rgb), .78);
+  backdrop-filter: blur(14px);
+}
+.navegacion .nav-link {
+  font-size: .74rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.navegacion .nav-link:hover,
+.navegacion .nav-link.active {
+  border-color: var(--bs-border-color);
+  background: var(--bs-tertiary-bg);
+}
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Hamburguesa: las tres barras se cruzan en una X al abrir el menú */
+.barra {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  margin: 3px 0;
+  background: var(--bs-success);
+  transition: transform .25s, opacity .25s;
+}
+[aria-expanded="true"] > .barra:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
+[aria-expanded="true"] > .barra:nth-child(2) { opacity: 0; }
+[aria-expanded="true"] > .barra:nth-child(3) { transform: translateY(-4.5px) rotate(-45deg); }
+
+/* Switch de tema: la bola se desliza entre el sol y la luna */
+.tema-switch { line-height: 0; }
+.tema-pista {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 22px;
+}
+.tema-bola {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 25px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--bs-success);
+  border-radius: 2px;
+  background: rgba(var(--bs-success-rgb), .14);
+  transition: transform .25s;
+}
+[data-bs-theme="dark"] .tema-bola { transform: translateX(25px); }
+.tema-icono {
+  grid-area: 1 / 1;
+  width: 12px;
+  height: 12px;
+  transition: opacity .2s;
+}
+.tema-icono-luna,
+[data-bs-theme="dark"] .tema-icono-sol { opacity: 0; }
+[data-bs-theme="dark"] .tema-icono-luna { opacity: 1; }
