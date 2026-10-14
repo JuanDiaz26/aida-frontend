@@ -3,7 +3,6 @@
   --bg:            #eef1f2;
   --bg-elev:       #ffffff;
   --bg-elev-2:     #f7f9fa;
-  --bg-term:       #0d0d0d;
   --bg-pie:        #e3e9eb;
   --border:        #ccd4d7;
   --border-soft:   #dde3e5;
@@ -11,9 +10,6 @@
   --text-dim:      #4d585e;
   --text-faint:    #5c686f;
   --accent:        #0a66c2;
-  --accent-2:      #00784a;
-  --accent-dim:    rgba(10, 102, 194, 0.10);
-  --accent-glow:   rgba(10, 102, 194, 0.30);
   --nav-accent:    #00784a;
   --rgb-bg:        238, 241, 242;
   --rgb-elev:      255, 255, 255;
@@ -35,7 +31,6 @@
   --bg:            #0d0d0d;
   --bg-elev:       #141414;
   --bg-elev-2:     #1a1a1a;
-  --bg-term:       #0a0a0a;
   --bg-pie:        #0a0a0a;
   --border:        #262626;
   --border-soft:   #1f1f1f;
@@ -43,9 +38,6 @@
   --text-dim:      #9a9a9a;
   --text-faint:    #5c5c5c;
   --accent:        #0090ff;
-  --accent-2:      #00ff88;
-  --accent-dim:    rgba(0, 144, 255, 0.14);
-  --accent-glow:   rgba(0, 144, 255, 0.38);
   --nav-accent:    #00ff88;
   --rgb-bg:        13, 13, 13;
   --rgb-elev:      20, 20, 20;
@@ -80,7 +72,6 @@
   --bs-link-color-rgb: var(--rgb-accent);
   --bs-link-hover-color: var(--accent);
   --bs-link-hover-color-rgb: var(--rgb-accent);
-  --bs-link-decoration: none;
   --bs-body-font-family: var(--mono);
   --bs-font-monospace: var(--mono);
   --bs-body-line-height: 1.6;
@@ -142,15 +133,8 @@
   text-transform: uppercase;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-html { scroll-behavior: smooth; scroll-padding-top: 72px; overflow-x: hidden; }
-
+/* El fondo, el color y la tipografía del body los pone Bootstrap con las variables de arriba */
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--mono);
-  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -170,16 +154,7 @@ body::before {
   mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, #000 30%, transparent 80%);
 }
 
-::selection { background: var(--accent); color: #000; }
-
-a { color: inherit; text-decoration: none; }
-
-img { max-width: 100%; height: auto; display: block; }
-
-:where(a, button, input):focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 2px;
-}
+::selection { background: var(--bs-primary); color: #000; }
 
 /* El container de Bootstrap se ajusta a las medidas del diseño en lugar de reemplazarlo */
 .container {
@@ -204,6 +179,5 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
