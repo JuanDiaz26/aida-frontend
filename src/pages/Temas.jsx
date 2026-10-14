@@ -3,6 +3,7 @@ import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
 import ItemTema from '../components/ItemTema.jsx'
 import Seo from '../components/Seo.jsx'
 import { temas } from '../data/temas.js'
+import { numerar } from '../utils/texto.js'
 
 function Temas() {
   return (
@@ -17,7 +18,7 @@ function Temas() {
         <Row as="ul" xs={1} sm={2} lg={3} className="temas-grid g-0 list-unstyled aparecer d1">
           {temas.map((tema, indice) => (
             <Col as="li" key={tema}>
-              <ItemTema numero={String(indice + 1).padStart(2, '0')} texto={tema} />
+              <ItemTema numero={numerar(indice + 1)} texto={tema} />
             </Col>
           ))}
         </Row>

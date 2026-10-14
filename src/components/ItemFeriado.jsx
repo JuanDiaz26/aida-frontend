@@ -1,4 +1,5 @@
 import { convertirFecha, describirDistancia, diasHasta } from '../utils/fechas.js'
+import { numerar } from '../utils/texto.js'
 
 function ItemFeriado({ fecha, nombre, tipo, hoy }) {
   const dia = convertirFecha(fecha)
@@ -7,7 +8,7 @@ function ItemFeriado({ fecha, nombre, tipo, hoy }) {
   return (
     <li className={dias < 0 ? 'feriado feriado-pasado' : 'feriado'}>
       <time className="feriado-dia" dateTime={fecha}>
-        {String(dia.getDate()).padStart(2, '0')}
+        {numerar(dia.getDate())}
       </time>
       <div>
         <p className="feriado-nombre">{nombre}</p>

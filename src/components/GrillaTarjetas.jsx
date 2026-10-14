@@ -1,5 +1,6 @@
 import { Col, Row } from 'react-bootstrap'
 import Tarjeta from './Tarjeta.jsx'
+import { numerar } from '../utils/texto.js'
 
 // La usan Cómo funciona y Panel: cambia la lista que recibe, no el componente
 function GrillaTarjetas({ items, className = '' }) {
@@ -8,7 +9,7 @@ function GrillaTarjetas({ items, className = '' }) {
       {items.map((item, indice) => (
         <Col key={item.titulo}>
           <Tarjeta
-            indice={String(indice + 1).padStart(2, '0')}
+            indice={numerar(indice + 1)}
             glifo={item.glifo}
             etiqueta={item.etiqueta}
             titulo={item.titulo}

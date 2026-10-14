@@ -3,6 +3,7 @@ import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
 import Seo from '../components/Seo.jsx'
 import Tarjeta from '../components/Tarjeta.jsx'
 import { integrantes } from '../data/integrantes.js'
+import { numerar } from '../utils/texto.js'
 
 function Equipo() {
   return (
@@ -23,7 +24,7 @@ function Equipo() {
           {integrantes.map((integrante, indice) => (
             <Col key={integrante.github}>
               <Tarjeta
-                indice={String(indice + 1).padStart(2, '0')}
+                indice={numerar(indice + 1)}
                 glifo="◉"
                 etiqueta="Integrante · TUP"
                 titulo={`${integrante.nombre} ${integrante.apellido}`}

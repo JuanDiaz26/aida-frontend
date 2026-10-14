@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import EncabezadoSeccion from '../components/EncabezadoSeccion.jsx'
 import Seo from '../components/Seo.jsx'
 import { preguntas } from '../data/preguntas.js'
-import { normalizarTexto } from '../utils/texto.js'
+import { normalizarTexto, numerar } from '../utils/texto.js'
 import '../styles/preguntas.css'
 
 // Datos estructurados de schema.org para que los buscadores reconozcan la página como FAQ.
@@ -56,7 +56,7 @@ function Preguntas() {
             {preguntasFiltradas.map((item, indice) => (
               <Accordion.Item key={item.pregunta} eventKey={item.pregunta}>
                 <Accordion.Header className="faq-header">
-                  <span className="n">{String(indice + 1).padStart(2, '0')}</span>
+                  <span className="n">{numerar(indice + 1)}</span>
                   {item.pregunta}
                 </Accordion.Header>
                 <Accordion.Body className="faq-cuerpo">{item.respuesta}</Accordion.Body>

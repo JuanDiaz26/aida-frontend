@@ -6,3 +6,8 @@ export function normalizarTexto(texto) {
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
 }
+
+// Numera con dos dígitos (1 → "01"), como los índices de las tarjetas, temas y preguntas
+export function numerar(numero) {
+  return String(numero).padStart(2, '0')
+}
