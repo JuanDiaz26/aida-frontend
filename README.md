@@ -203,7 +203,7 @@ Las tres son públicas, no piden registro ni clave, y permiten consultas desde e
 { "current": { "temperature_2m": 14.2, "weather_code": 51 }, "daily": { "temperature_2m_max": [18.1], "temperature_2m_min": [13.6] } }
 ```
 
-**GitHub.** Por cada integrante se piden tres cosas: su perfil público, del que se usan `avatar_url`, `bio` y `public_repos`, y sus commits en cada uno de los dos repositorios de AIda, de los que solo se usa la fecha. Si un integrante no completó la biografía en GitHub, se muestra la descripción guardada en `data/integrantes.js`. Sin clave, GitHub permite 60 pedidos por hora por conexión; cada visita a Equipo hace 6 (3 por integrante).
+**GitHub.** Por cada integrante se piden tres cosas: su perfil público, del que se usan `avatar_url`, `bio` y `public_repos`, y sus commits en cada uno de los dos repositorios de AIda, de los que solo se usa la fecha. Si un integrante no completó la biografía en GitHub, se muestra la descripción guardada en `data/integrantes.js`. Sin clave, GitHub permite 60 pedidos por hora por conexión; cada visita a Equipo hace 6 (3 por integrante). Por eso `services/github.js` guarda la respuesta en `sessionStorage`: durante la visita al sitio, GitHub se consulta una sola vez, y al volver a Equipo los datos salen de ahí. Si el pedido falla no se guarda nada, así la próxima vez vuelve a intentar.
 
 ```json
 { "login": "JuanDiaz26", "avatar_url": "https://avatars.githubusercontent.com/...", "bio": "...", "public_repos": 19 }
@@ -241,7 +241,7 @@ Recibe la función que hace el pedido y el nombre del servicio, que se usa en lo
 4. Si sale bien, los datos se guardan con `setDatos`. Si sale mal, el mensaje va a `setError` y aparece el aviso de **SweetAlert2**.
 5. En los dos casos, `cargando` pasa a `false` en el bloque `finally`.
 
-Cada API se consulta **una sola vez** por visita a la página. Los feriados llegan con el año entero, y moverse entre meses solo filtra lo que ya llegó, sin nuevos pedidos.
+Los feriados y el clima se consultan **una sola vez** cada vez que se entra al inicio, y GitHub una sola vez por visita al sitio (queda guardado en `sessionStorage`). Los feriados llegan con el año entero, y moverse entre meses solo filtra lo que ya llegó, sin nuevos pedidos.
 
 ### Manejo de errores
 `utils/avisos.js` arma el mensaje con el nombre del servicio:

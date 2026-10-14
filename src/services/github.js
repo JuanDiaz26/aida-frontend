@@ -23,11 +23,21 @@ async function obtenerIntegrante(usuario, signal) {
   return { ...perfil.data, fechasCommits }
 }
 
+// GitHub permite 60 pedidos por hora sin clave, y cada visita a Equipo hace 6.
+// Por eso la respuesta se guarda durante la visita: al volver a Equipo no se pide de nuevo
+const CLAVE_GITHUB = 'aida-github'
+
 // Pide los datos de todos los integrantes a la vez. Si un pedido falla, falla el conjunto
 export async function obtenerPerfiles(usuarios, signal) {
+  const guardados = sessionStorage.getItem(CLAVE_GITHUB)
+  if (guardados) return JSON.parse(guardados)
+
   if (!API_URL) {
     throw new Error('Falta configurar VITE_GITHUB_API_URL en el archivo .env')
   }
 
-  return Promise.all(usuarios.map((usuario) => obtenerIntegrante(usuario, signal)))
+  const perfiles = await Promise.all(usuarios.map((usuario) => obtenerIntegrante(usuario, signal)))
+  // Solo se guarda si todo salió bien: si hubo un error, la próxima visita vuelve a intentar
+  sessionStorage.setItem(CLAVE_GITHUB, JSON.stringify(perfiles))
+  return perfiles
 }

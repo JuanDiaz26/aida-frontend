@@ -16,7 +16,7 @@ function ActividadGitHub({ fechas }) {
 
   return (
     <span className="d-block mt-3 mb-3">
-      <span className="d-block meta mb-2">Actividad en AIda · {total} commits</span>
+      <span className="d-block meta mb-2">Actividad en AIda · {total} {total === 1 ? 'commit' : 'commits'}</span>
 
       <span
         className="actividad d-flex align-items-end gap-1"
