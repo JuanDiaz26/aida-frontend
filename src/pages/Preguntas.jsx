@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import Pagina from '../components/Pagina.jsx'
 import { preguntas } from '../data/preguntas.js'
 import { normalizarTexto, numerar } from '../utils/texto.js'
-import '../styles/preguntas.css'
 
 // Datos estructurados de schema.org para que los buscadores reconozcan la página como FAQ.
 // Salen de la misma lista que el acordeón, así no hay que mantener dos copias
@@ -41,7 +40,8 @@ function Preguntas() {
 
       <Form.Control
         type="search"
-        className="faq-buscador aparecer d1"
+        size="sm"
+        className="bg-body-tertiary rounded-0 py-3 px-4 mb-3 aparecer d1"
         placeholder="Buscar en las preguntas (ej: mesas, trámite)"
         aria-label="Buscar en las preguntas frecuentes"
         value={busqueda}
@@ -53,16 +53,16 @@ function Preguntas() {
           {/* eventKey es la pregunta y no el índice: al filtrar, los índices cambian */}
           {preguntasFiltradas.map((item, indice) => (
             <Accordion.Item key={item.pregunta} eventKey={item.pregunta}>
-              <Accordion.Header className="faq-header">
-                <span className="n">{numerar(indice + 1)}</span>
+              <Accordion.Header>
+                <span className="meta text-primary me-3">{numerar(indice + 1)}</span>
                 {item.pregunta}
               </Accordion.Header>
-              <Accordion.Body className="faq-cuerpo">{item.respuesta}</Accordion.Body>
+              <Accordion.Body className="small text-body-secondary">{item.respuesta}</Accordion.Body>
             </Accordion.Item>
           ))}
         </Accordion>
       ) : (
-        <p className="faq-vacio">
+        <p className="border bg-body-tertiary small text-body-secondary p-4 mb-0">
           No encontramos preguntas sobre "{busqueda}". Probá{' '}
           <Link to="/asistente">preguntarle a AIda</Link>.
         </p>

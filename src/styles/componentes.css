@@ -170,3 +170,32 @@ a.tema:hover::after { opacity: 1; }
   width: 11px;
   height: 11px;
 }
+
+/* Preguntas frecuentes: el acordeón se configura con sus propias variables,
+   incluido el ícono, que pasa de flecha a un + que gira al abrir */
+.faq {
+  --bs-accordion-bg: var(--bs-tertiary-bg);
+  --bs-accordion-border-radius: 0;
+  --bs-accordion-inner-border-radius: 0;
+  --bs-accordion-btn-padding-y: 1.35rem;
+  --bs-accordion-active-bg: var(--bs-secondary-bg);
+  --bs-accordion-active-color: var(--bs-primary);
+  --bs-accordion-btn-focus-box-shadow: none;
+  --bs-accordion-btn-icon-width: auto;
+  --bs-accordion-btn-icon-transform: rotate(45deg);
+}
+.faq .accordion-button {
+  font-family: var(--serif);
+  font-weight: 600;
+}
+/* Las variables del ícono van en el ::after porque el modo oscuro de Bootstrap las redefine ahí */
+.faq .accordion-button::after {
+  --bs-accordion-btn-icon: none;
+  --bs-accordion-btn-active-icon: none;
+  content: "+";
+  color: var(--bs-primary);
+}
+
+/* Pie */
+.pie { background: var(--bg-pie); }
+.pie-logo { height: 68px; }
