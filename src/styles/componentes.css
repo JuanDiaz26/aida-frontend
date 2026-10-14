@@ -115,3 +115,46 @@ a.tema:hover::after { opacity: 1; }
 .tema-icono-luna,
 [data-bs-theme="dark"] .tema-icono-sol { opacity: 0; }
 [data-bs-theme="dark"] .tema-icono-luna { opacity: 1; }
+
+/* Portada */
+.portada {
+  min-height: 92vh;
+  padding-block: 6rem 4rem;
+}
+.portada-titulo {
+  font-size: clamp(2.6rem, 9vw, 6.5rem);
+  line-height: .95;
+  letter-spacing: -.03em;
+  max-width: 16ch;
+}
+.portada-logo { width: 260px; }
+
+/* Halo detrás del logo, en el mismo azul que el logo */
+.logo-marco::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 42%, rgba(var(--bs-primary-rgb), .14), transparent 70%);
+  pointer-events: none;
+}
+
+/* Animaciones de la marca: toman el color del texto, así sirven en azul o en verde */
+.punto-vivo {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 12px currentColor;
+  animation: pulso 1.8s ease-in-out infinite;
+}
+.cursor {
+  display: inline-block;
+  width: .6em;
+  height: 1.05em;
+  margin-left: .1em;
+  vertical-align: -.12em;
+  background: currentColor;
+  animation: titilar 1.05s steps(1) infinite;
+}
+@keyframes pulso { 50% { opacity: .25; } }
+@keyframes titilar { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }

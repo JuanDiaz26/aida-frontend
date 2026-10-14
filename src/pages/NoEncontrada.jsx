@@ -10,7 +10,7 @@ function NoEncontrada() {
         esté mal escrito o que la página se haya movido.
       </p>
 
-      <Button as={Link} to="/" variant="" className="hero-cta aparecer d2">
+      <Button as={Link} to="/" variant="acento" className="meta px-4 py-3 aparecer d2">
         Volver al inicio <span aria-hidden="true">›</span>
       </Button>
     </Pagina>
