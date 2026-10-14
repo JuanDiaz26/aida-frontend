@@ -12,11 +12,9 @@ function obtenerRespuesta(consulta) {
   return coincidencia || respuestaPorDefecto
 }
 
+// hour12: false para que quede "09:05" y no "09:05 a. m."
 function obtenerHoraActual() {
-  const ahora = new Date()
-  const horas = String(ahora.getHours()).padStart(2, '0')
-  const minutos = String(ahora.getMinutes()).padStart(2, '0')
-  return `${horas}:${minutos}`
+  return new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })
 }
 
 // sessionStorage y no localStorage: la conversación dura lo que dura la visita,
