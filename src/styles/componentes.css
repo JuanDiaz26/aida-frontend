@@ -1,0 +1,204 @@
+/* Estilos propios de AIda: solo lo que no resuelven las utilidades de Bootstrap */
+
+.section-pad { padding-block: clamp(4rem, 10vw, 8rem); }
+.prosa { max-width: 70ch; }
+
+/* Número de cada sección, dibujado solo con el contorno */
+.sec-num {
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: .9;
+  letter-spacing: -.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--bs-primary);
+}
+
+/* Superficie de tarjetas y temas: se aclara al pasar el mouse */
+.superficie {
+  background: var(--bs-tertiary-bg);
+  transition: background .25s;
+}
+.superficie:hover { background: var(--bs-secondary-bg); }
+
+/* Línea que se despliega debajo de una tarjeta al pasar el mouse */
+.tarjeta::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--bs-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s;
+}
+.tarjeta:hover::after { transform: none; }
+
+/* Los temas que son enlaces muestran una flecha al pasar el mouse */
+a.tema::after {
+  content: "›";
+  margin-left: auto;
+  color: var(--bs-primary);
+  opacity: 0;
+  transition: opacity .2s;
+}
+a.tema:hover::after { opacity: 1; }
+
+/* Navbar: los colores van por las variables del Navbar de Bootstrap */
+.navegacion {
+  --bs-navbar-color: var(--bs-secondary-color);
+  --bs-navbar-hover-color: var(--bs-success);
+  --bs-navbar-active-color: var(--bs-success);
+  --bs-navbar-brand-color: var(--bs-body-color);
+  --bs-navbar-brand-hover-color: var(--bs-body-color);
+  --bs-navbar-toggler-border-color: var(--bs-border-color);
+  --bs-navbar-toggler-focus-width: 0;
+  background: rgba(var(--bs-body-bg-rgb), .78);
+  backdrop-filter: blur(14px);
+}
+.navegacion .nav-link {
+  font-size: .74rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.navegacion .nav-link:hover,
+.navegacion .nav-link.active {
+  border-color: var(--bs-border-color);
+  background: var(--bs-tertiary-bg);
+}
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Hamburguesa: las tres barras se cruzan en una X al abrir el menú */
+.barra {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  margin: 3px 0;
+  background: var(--bs-success);
+  transition: transform .25s, opacity .25s;
+}
+[aria-expanded="true"] > .barra:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
+[aria-expanded="true"] > .barra:nth-child(2) { opacity: 0; }
+[aria-expanded="true"] > .barra:nth-child(3) { transform: translateY(-4.5px) rotate(-45deg); }
+
+/* Switch de tema: la bola se desliza entre el sol y la luna */
+.tema-switch { line-height: 0; }
+.tema-pista {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 22px;
+}
+.tema-bola {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 25px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--bs-success);
+  border-radius: 2px;
+  background: rgba(var(--bs-success-rgb), .14);
+  transition: transform .25s;
+}
+[data-bs-theme="dark"] .tema-bola { transform: translateX(25px); }
+.tema-icono {
+  grid-area: 1 / 1;
+  width: 12px;
+  height: 12px;
+  transition: opacity .2s;
+}
+.tema-icono-luna,
+[data-bs-theme="dark"] .tema-icono-sol { opacity: 0; }
+[data-bs-theme="dark"] .tema-icono-luna { opacity: 1; }
+
+/* Portada */
+.portada {
+  min-height: 92vh;
+  padding-block: 6rem 4rem;
+}
+.portada-titulo {
+  font-size: clamp(2.6rem, 9vw, 6.5rem);
+  line-height: .95;
+  letter-spacing: -.03em;
+  max-width: 16ch;
+}
+.portada-logo { width: 260px; }
+
+/* Halo detrás del logo, en el mismo azul que el logo */
+.logo-marco::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 42%, rgba(var(--bs-primary-rgb), .14), transparent 70%);
+  pointer-events: none;
+}
+
+/* Animaciones de la marca: toman el color del texto, así sirven en azul o en verde */
+.punto-vivo {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 12px currentColor;
+  animation: pulso 1.8s ease-in-out infinite;
+}
+.cursor {
+  display: inline-block;
+  width: .6em;
+  height: 1.05em;
+  margin-left: .1em;
+  vertical-align: -.12em;
+  background: currentColor;
+  animation: titilar 1.05s steps(1) infinite;
+}
+@keyframes pulso { 50% { opacity: .25; } }
+@keyframes titilar { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+/* Consola del asistente: alto del registro y los tres puntos de la terminal */
+.consola { max-width: 760px; }
+.consola .btn-sm { --bs-btn-font-size: .72rem; }
+.consola-registro {
+  min-height: 220px;
+  max-height: 340px;
+}
+.punto-terminal {
+  width: 11px;
+  height: 11px;
+}
+
+/* Preguntas frecuentes: el acordeón se configura con sus propias variables,
+   incluido el ícono, que pasa de flecha a un + que gira al abrir */
+.faq {
+  --bs-accordion-bg: var(--bs-tertiary-bg);
+  --bs-accordion-border-radius: 0;
+  --bs-accordion-inner-border-radius: 0;
+  --bs-accordion-btn-padding-y: 1.35rem;
+  --bs-accordion-active-bg: var(--bs-secondary-bg);
+  --bs-accordion-active-color: var(--bs-primary);
+  --bs-accordion-btn-focus-box-shadow: none;
+  --bs-accordion-btn-icon-width: auto;
+  --bs-accordion-btn-icon-transform: rotate(45deg);
+}
+.faq .accordion-button {
+  font-family: var(--serif);
+  font-weight: 600;
+}
+/* Las variables del ícono van en el ::after porque el modo oscuro de Bootstrap las redefine ahí */
+.faq .accordion-button::after {
+  --bs-accordion-btn-icon: none;
+  --bs-accordion-btn-active-icon: none;
+  content: "+";
+  color: var(--bs-primary);
+}
+
+/* Gráfico de actividad de Equipo: la altura de cada barra se calcula en el componente */
+.actividad { height: 3rem; }
+
+/* Pie */
+.pie { background: var(--bg-pie); }
+.pie-logo { height: 68px; }

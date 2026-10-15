@@ -1,5 +1,6 @@
 import { Col, Container, Row } from 'react-bootstrap'
 import CalendarioFeriados from '../components/CalendarioFeriados.jsx'
+import ClimaHoy from '../components/ClimaHoy.jsx'
 import Hero from '../components/Hero.jsx'
 import ItemTema from '../components/ItemTema.jsx'
 import Seo from '../components/Seo.jsx'
@@ -16,19 +17,20 @@ function Inicio() {
           {/* En pantallas grandes el calendario queda al costado; en celular baja debajo de la grilla */}
           <Row className="g-4">
             <Col lg={8}>
-              <h2 id="titulo-explorar" className="explorar-titulo">
+              <h2 id="titulo-explorar" className="kicker mb-3">
                 Explorá el sitio
               </h2>
-              <Row as="ul" xs={1} sm={2} className="temas-grid g-0 list-unstyled mb-0">
+              <Row as="ul" xs={1} sm={2} className="g-0 border-top border-start list-unstyled mb-0">
                 {secciones.map((seccion) => (
-                  <Col as="li" key={seccion.ruta}>
+                  <Col as="li" key={seccion.ruta} className="border-end border-bottom">
                     <ItemTema numero={seccion.numero} texto={seccion.nombre} ruta={seccion.ruta} />
                   </Col>
                 ))}
               </Row>
             </Col>
 
-            <Col lg={4}>
+            <Col lg={4} className="d-flex flex-column gap-4">
+              <ClimaHoy />
               <CalendarioFeriados />
             </Col>
           </Row>
