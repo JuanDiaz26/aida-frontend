@@ -15,8 +15,8 @@ function Temas() {
     >
       <Row as="ul" xs={1} sm={2} lg={3} className="g-0 border-top border-start list-unstyled aparecer d1">
         {temas.map((tema, indice) => (
-          <Col as="li" key={tema} className="border-end border-bottom">
-            <ItemTema numero={numerar(indice + 1)} texto={tema} />
+          <Col as="li" key={tema.nombre} className="border-end border-bottom">
+            <ItemTema numero={numerar(indice + 1)} texto={tema.nombre} />
           </Col>
         ))}
       </Row>
