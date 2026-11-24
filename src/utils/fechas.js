@@ -23,3 +23,14 @@ export function describirDistancia(dias) {
   if (dias === 1) return 'mañana'
   return `en ${dias} días`
 }
+
+// "2026-11-24T10:40:12Z" → "24/11 07:40", en la hora de Argentina
+export function formatearFechaHora(iso) {
+  return new Date(iso).toLocaleString('es-AR', {
+    day: '2-digit',
+    month: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  })
+}

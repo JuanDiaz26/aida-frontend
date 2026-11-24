@@ -5,11 +5,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/tema.css'
 import './styles/componentes.css'
 import App from './App.jsx'
+import SesionProvider from './context/SesionProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <SesionProvider>
+        <App />
+      </SesionProvider>
     </BrowserRouter>
   </StrictMode>,
 )
