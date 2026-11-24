@@ -1,8 +1,13 @@
+import { Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import GrillaTarjetas from '../components/GrillaTarjetas.jsx'
 import Pagina from '../components/Pagina.jsx'
 import { herramientasPanel } from '../data/panel.js'
+import { useSesion } from '../hooks/useSesion.js'
 
 function Panel() {
+  const { usuario } = useSesion()
+
   return (
     <Pagina
       seoTitulo="Panel institucional"
@@ -17,6 +22,10 @@ function Panel() {
       </p>
 
       <GrillaTarjetas items={herramientasPanel} className="aparecer d2" />
+
+      <Button as={Link} to="/panel/bandeja" variant="acento" className="meta px-4 py-3 mt-5 aparecer d3">
+        {usuario ? 'Abrir la bandeja' : 'Ingresar al panel'} <span aria-hidden="true">›</span>
+      </Button>
     </Pagina>
   )
 }

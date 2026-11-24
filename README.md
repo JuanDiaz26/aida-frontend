@@ -17,9 +17,11 @@ AIda centraliza la información académica de la facultad (mesas de examen, insc
 - Navegación entre páginas con **React Router**, sin recargar el sitio.
 - Navbar con menú hamburguesa que se cierra al elegir una sección y marca la página actual.
 - Cambio de tema claro/oscuro que se recuerda entre visitas.
-- Consola del asistente con respuestas por palabra clave, sugerencias rápidas y cita de la fuente.
+- Consola del asistente conectada al **backend de AIda**: responde con los datos oficiales de la base, cita las fuentes y, si no tiene evidencia, deriva la consulta al personal. Cuando el personal responde, la respuesta aparece en la misma conversación.
 - La conversación con el asistente se conserva al cambiar de página, con un botón para empezar una nueva.
-- Preguntas frecuentes en un acordeón, con un buscador que filtra mientras se escribe.
+- Preguntas frecuentes de la facultad traídas del backend, en un acordeón con filtro por categoría y un buscador que filtra mientras se escribe.
+- Inicio de sesión del personal con token JWT, botón Ingresar/Salir en el navbar y rutas protegidas por rol.
+- Bandeja de derivaciones en el Panel: consultas ordenadas por prioridad, la conversación completa, la respuesta del personal y métricas de uso.
 - Página 404 para rutas que no existen.
 - Calendario académico en el inicio con los feriados del año, traídos de una API pública y navegables mes por mes.
 - Clima de hoy en San Miguel de Tucumán en el inicio, con la temperatura actual, la máxima y la mínima.
@@ -29,7 +31,8 @@ AIda centraliza la información académica de la facultad (mesas de examen, insc
 - **React 19** + **Vite**
 - **React Router** (`react-router-dom`)
 - **React Bootstrap** y **Bootstrap 5**, con el tema armado sobre las variables de Bootstrap
-- **Axios** para consumir tres APIs públicas: feriados, clima y GitHub
+- **Axios** para consumir el backend de AIda (NestJS) y tres APIs públicas: feriados, clima y GitHub
+- **Context API** de React para compartir la sesión del personal
 - **SweetAlert2** para los avisos al usuario
 - JavaScript (JSX)
 - Git y GitHub, con deploy en **Vercel**
@@ -41,6 +44,8 @@ cp .env.example .env
 npm run dev
 ```
 Abrir `http://localhost:5173`.
+
+El chat, las preguntas frecuentes y el Panel necesitan el [backend de AIda](https://github.com/lazartej71/aida-backend) corriendo (`npm run start:dev` en ese repositorio, en el puerto 3000). Sin el backend, el resto del sitio funciona igual.
 
 El archivo `.env` guarda las URLs de las APIs y **no se sube a GitHub** (figura en `.gitignore`). Por eso cada integrante lo crea a partir de `.env.example`, que sí está en el repositorio.
 
@@ -70,7 +75,11 @@ src/
 │   ├── CalendarioFeriados.jsx
 │   ├── ItemFeriado.jsx
 │   ├── ClimaHoy.jsx
-│   └── ActividadGitHub.jsx
+│   ├── ActividadGitHub.jsx
+│   ├── RutaProtegida.jsx
+│   ├── ResumenMetricas.jsx
+│   ├── ItemDerivacion.jsx
+│   └── DetalleDerivacion.jsx
 ├── pages/           una página por ruta
 │   ├── Inicio.jsx
 │   ├── ComoFunciona.jsx
@@ -79,16 +88,19 @@ src/
 │   ├── Panel.jsx
 │   ├── Preguntas.jsx
 │   ├── Equipo.jsx
+│   ├── Ingresar.jsx
+│   ├── Bandeja.jsx
 │   └── NoEncontrada.jsx
+├── context/         sesión del personal (SesionProvider), compartida con Context API
 ├── data/            datos que alimentan a los componentes
-├── hooks/           hooks propios: useConsulta (pedir datos a las APIs) y useConversacion (chat)
-├── services/        pedidos a APIs externas (feriados, clima y GitHub) y respuestas del asistente
+├── hooks/           hooks propios: useConsulta (pedir datos), useConversacion (chat) y useSesion
+├── services/        pedidos al backend (asistente, preguntas, gestión) y a las APIs públicas
 ├── utils/           funciones que usan varios componentes (texto, fechas, clima, actividad, avisos y almacenamiento)
 ├── styles/          tema.css (colores y variables de Bootstrap) y componentes.css
 ├── App.jsx          estado del tema y definición de las rutas
 └── main.jsx
 vercel.json          redirige todas las rutas a index.html
-.env.example         modelo del .env con las URLs de las tres APIs
+.env.example         modelo del .env con las URLs del backend y de las tres APIs
 ```
 
 ## Rutas (React Router)
@@ -103,6 +115,8 @@ vercel.json          redirige todas las rutas a index.html
 | `/panel` | Panel institucional |
 | `/preguntas` | Preguntas frecuentes |
 | `/equipo` | Equipo |
+| `/ingresar` | Ingreso del personal |
+| `/panel/bandeja` | Bandeja de derivaciones (solo personal y administradores) |
 | `*` | Página no encontrada |
 
 Los enlaces del navbar usan `NavLink`, que agrega la clase `active` a la página actual. El logo, el botón de la portada y los accesos de la página de inicio usan `Link`. Como Vercel no conoce las rutas de React, `vercel.json` hace que cualquier dirección devuelva `index.html` y React Router se encarga del resto.
@@ -220,6 +234,7 @@ Las tres son públicas, no piden registro ni clave, y permiten consultas desde e
 | `VITE_API_URL` | `services/feriados.js` |
 | `VITE_CLIMA_API_URL` | `services/clima.js` |
 | `VITE_GITHUB_API_URL` | `services/github.js` |
+| `VITE_BACKEND_URL` | `services/backend.js` |
 
 - Vite solo expone al navegador las variables que empiezan con `VITE_`. Cada servicio la lee con `import.meta.env` y ningún componente tiene una URL escrita.
 - `.env` está en `.gitignore`, así que no se sube. `.env.example` sí se sube, como modelo para crear el propio.
@@ -259,6 +274,23 @@ El aviso de SweetAlert2 es un *toast*: aparece en una esquina y se cierra solo, 
 - **Cancelación del pedido:** si el componente se desmonta antes de que llegue la respuesta, el `AbortController` cancela la consulta y no se actualiza un estado que ya no existe.
 - **Un estado a la vez:** el calendario y el clima eligen qué mostrar (cargando, error, sin datos o la lista) con `return` tempranos, de arriba hacia abajo, en lugar de varias condiciones sueltas en el JSX.
 
+## Conexión con el backend
+El frontend consume la API REST del [backend de AIda](https://github.com/lazartej71/aida-backend) (NestJS + Prisma + PostgreSQL en Supabase). Todos los pedidos salen de una sola instancia de Axios en `services/backend.js`, que toma la dirección de `VITE_BACKEND_URL` y agrega el token de la sesión cuando existe.
+
+| Qué | Pedido | Dónde |
+|---|---|---|
+| Primera consulta del chat | `POST /chat` | `services/asistente.js` |
+| Consultas siguientes | `POST /chat/:id/mensajes` | `services/asistente.js` |
+| Respuestas del personal | `GET /chat/:id` | `services/asistente.js` |
+| Preguntas frecuentes | `GET /preguntas-frecuentes` | `services/preguntas.js` |
+| Iniciar y cerrar sesión | `POST /auth/login`, `POST /auth/logout`, `GET /auth/me` | `context/SesionProvider.jsx` |
+| Bandeja y métricas | `GET /derivaciones`, `GET /derivaciones/:id`, `PATCH /derivaciones/:id`, `GET /metricas/resumen` | `services/gestion.js` |
+
+- **Chat:** la primera consulta crea una conversación y el backend devuelve su `id` y un token privado. El token viaja en el encabezado `x-conversacion-token` en cada consulta siguiente, así nadie más puede leer la conversación. Si la conversación se cerró o el token ya no sirve, la consulta sigue sola en una nueva.
+- **Sesión:** al ingresar, el backend devuelve un token JWT que dura una hora. Se guarda en `localStorage` y `SesionProvider` lo comparte con todo el sitio mediante Context API. Si un pedido devuelve 401, la sesión se borra y la ruta protegida manda a Ingresar.
+- **Rutas protegidas:** `RutaProtegida` envuelve la bandeja. Sin sesión redirige a `/ingresar` y, después de ingresar, vuelve a donde se quería ir. Con una cuenta sin rol de personal muestra un aviso de permisos.
+- **Bandeja:** las derivaciones abiertas se ordenan por prioridad (alta, media, baja) y, a igual prioridad, por antigüedad. Para marcar una como resuelta hay que escribir la respuesta, igual que exige el backend.
+
 ## Estilos con React Bootstrap
 La interfaz está hecha con componentes de React Bootstrap: `Navbar`, `Nav`, `Container`, `Row` y `Col`, `Card`, `ListGroup`, `Accordion`, `Form`, `InputGroup`, `Button`, `Alert` y `Spinner`. La ubicación, los espacios y los tamaños de letra salen de las clases utilitarias de Bootstrap (`d-flex`, `gap-*`, `border-*`, `fs-*`, `fw-*`, `text-body-secondary`, etc.).
 
@@ -285,3 +317,4 @@ La interfaz está hecha con componentes de React Bootstrap: `Navbar`, `Nav`, `Co
 - [x] Preguntas frecuentes
 - [x] Equipo
 - [x] Footer
+- [x] Conexión con el backend: chat, preguntas frecuentes, inicio de sesión y bandeja

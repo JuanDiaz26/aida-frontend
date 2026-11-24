@@ -170,6 +170,11 @@ a.tema:hover::after { opacity: 1; }
   width: 11px;
   height: 11px;
 }
+/* El backend separa los datos de una respuesta con saltos de línea */
+.texto-mensaje { white-space: pre-line; }
+
+/* Formulario de ingreso del personal */
+.ingreso { max-width: 420px; }
 
 /* Preguntas frecuentes: el acordeón se configura con sus propias variables,
    incluido el ícono, que pasa de flecha a un + que gira al abrir */
