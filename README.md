@@ -81,9 +81,9 @@ src/
 │   ├── Equipo.jsx
 │   └── NoEncontrada.jsx
 ├── data/            datos que alimentan a los componentes
-├── hooks/           hook propio useConsulta, para pedir datos a las APIs
-├── services/        pedidos a APIs externas (feriados, clima y GitHub)
-├── utils/           funciones que usan varios componentes (texto, fechas, clima, actividad y avisos)
+├── hooks/           hooks propios: useConsulta (pedir datos a las APIs) y useConversacion (chat)
+├── services/        pedidos a APIs externas (feriados, clima y GitHub) y respuestas del asistente
+├── utils/           funciones que usan varios componentes (texto, fechas, clima, actividad, avisos y almacenamiento)
 ├── styles/          tema.css (colores y variables de Bootstrap) y componentes.css
 ├── App.jsx          estado del tema y definición de las rutas
 └── main.jsx
