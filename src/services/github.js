@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { guardar, leerGuardado } from '../utils/almacenamiento.js'
 
 const API_URL = import.meta.env.VITE_GITHUB_API_URL
 
@@ -29,8 +30,8 @@ const CLAVE_GITHUB = 'aida-github'
 
 // Pide los datos de todos los integrantes a la vez. Si un pedido falla, falla el conjunto
 export async function obtenerPerfiles(usuarios, signal) {
-  const guardados = sessionStorage.getItem(CLAVE_GITHUB)
-  if (guardados) return JSON.parse(guardados)
+  const guardados = leerGuardado(CLAVE_GITHUB)
+  if (Array.isArray(guardados)) return guardados
 
   if (!API_URL) {
     throw new Error('Falta configurar VITE_GITHUB_API_URL en el archivo .env')
@@ -38,6 +39,6 @@ export async function obtenerPerfiles(usuarios, signal) {
 
   const perfiles = await Promise.all(usuarios.map((usuario) => obtenerIntegrante(usuario, signal)))
   // Solo se guarda si todo salió bien: si hubo un error, la próxima visita vuelve a intentar
-  sessionStorage.setItem(CLAVE_GITHUB, JSON.stringify(perfiles))
+  guardar(CLAVE_GITHUB, perfiles)
   return perfiles
 }
