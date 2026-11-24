@@ -47,6 +47,7 @@ function Consola({ nombre }) {
             fuentes={mensaje.fuentes}
             derivada={mensaje.derivada}
             error={mensaje.error}
+            etiqueta={mensaje.etiqueta}
           />
         ))}
         {redactando && (

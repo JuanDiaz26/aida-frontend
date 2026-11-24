@@ -42,3 +42,12 @@ export async function cerrarConversacion(acceso) {
     // Si no se pudo cerrar, el backend la deja abierta: no afecta a la conversación nueva
   }
 }
+
+// Respuestas que el personal ya cargó para las derivaciones de esta conversación
+export async function obtenerRespuestasDelPersonal(acceso, signal) {
+  const { data } = await backend.get(`/chat/${acceso.id}`, {
+    headers: { 'x-conversacion-token': acceso.token },
+    signal,
+  })
+  return (data.derivaciones ?? []).filter((derivacion) => derivacion.estado === 'RESUELTA' && derivacion.respuesta)
+}

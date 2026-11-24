@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { saludoChat } from '../data/respuestas.js'
-import { cerrarConversacion, obtenerRespuesta } from '../services/asistente.js'
+import { cerrarConversacion, obtenerRespuesta, obtenerRespuestasDelPersonal } from '../services/asistente.js'
 import { mensajeDelBackend } from '../services/backend.js'
 import { guardar, leerGuardado } from '../utils/almacenamiento.js'
 
@@ -45,6 +45,27 @@ export function useConversacion() {
   useEffect(() => {
     guardar(CLAVE_ACCESO, acceso)
   }, [acceso])
+
+  // Al volver al chat se suman las respuestas que el personal ya dio a las consultas derivadas
+  useEffect(() => {
+    const guardado = leerAccesoGuardado()
+    if (!guardado) return
+    const controlador = new AbortController()
+    obtenerRespuestasDelPersonal(guardado, controlador.signal)
+      .then((resueltas) => {
+        setMensajes((anteriores) => {
+          const mostradas = new Set(anteriores.map((mensaje) => mensaje.derivacionId))
+          const nuevas = resueltas
+            .filter((derivacion) => !mostradas.has(derivacion.id))
+            .map((derivacion) =>
+              crearMensaje('respuesta', derivacion.respuesta, { etiqueta: 'personal', derivacionId: derivacion.id }),
+            )
+          return nuevas.length > 0 ? [...anteriores, ...nuevas] : anteriores
+        })
+      })
+      .catch(() => {})
+    return () => controlador.abort()
+  }, [])
 
   // Si se cambia de página mientras redacta, se cancela la respuesta pendiente
   useEffect(() => () => controladorRef.current?.abort(), [])

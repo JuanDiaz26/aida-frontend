@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
+import RutaProtegida from './components/RutaProtegida.jsx'
+import { ROLES_PERSONAL } from './hooks/useSesion.js'
 import Asistente from './pages/Asistente.jsx'
+import Bandeja from './pages/Bandeja.jsx'
 import ComoFunciona from './pages/ComoFunciona.jsx'
 import Equipo from './pages/Equipo.jsx'
+import Ingresar from './pages/Ingresar.jsx'
 import Inicio from './pages/Inicio.jsx'
 import NoEncontrada from './pages/NoEncontrada.jsx'
 import Panel from './pages/Panel.jsx'
@@ -36,6 +40,15 @@ function App() {
         <Route path="temas" element={<Temas />} />
         <Route path="asistente" element={<Asistente />} />
         <Route path="panel" element={<Panel />} />
+        <Route
+          path="panel/bandeja"
+          element={
+            <RutaProtegida roles={ROLES_PERSONAL}>
+              <Bandeja />
+            </RutaProtegida>
+          }
+        />
+        <Route path="ingresar" element={<Ingresar />} />
         <Route path="preguntas" element={<Preguntas />} />
         <Route path="equipo" element={<Equipo />} />
         <Route path="*" element={<NoEncontrada />} />
