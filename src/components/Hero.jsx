@@ -3,12 +3,12 @@ import { Button, Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Logo from './Logo.jsx'
 import Metrica from './Metrica.jsx'
-
-const temas = ['Mesas', 'Inscripciones', 'Correlativas', 'Trámites', 'Calendario']
+import { temas } from '../data/temas.js'
+import { numerar } from '../utils/texto.js'
 
 const metricas = [
   { valor: '24', etiqueta: 'horas disponible' },
-  { valor: '06', etiqueta: 'temas cubiertos' },
+  { valor: numerar(temas.length), etiqueta: 'temas cubiertos' },
   { valor: '2026', etiqueta: 'trabajo final' },
 ]
 
@@ -28,9 +28,9 @@ function Hero() {
 
           <p className="d-flex flex-wrap fs-6 fw-medium mb-4 aparecer d2">
             {temas.map((tema, indice) => (
-              <Fragment key={tema}>
+              <Fragment key={tema.nombre}>
                 {indice > 0 && <span className="text-primary px-2">·</span>}
-                {tema}
+                {tema.corto}
               </Fragment>
             ))}
           </p>
