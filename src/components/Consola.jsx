@@ -44,7 +44,9 @@ function Consola({ nombre }) {
             tipo={mensaje.tipo}
             texto={mensaje.texto}
             hora={mensaje.hora}
-            fuente={mensaje.fuente}
+            fuentes={mensaje.fuentes}
+            derivada={mensaje.derivada}
+            error={mensaje.error}
           />
         ))}
         {redactando && (
@@ -84,6 +86,7 @@ function Consola({ nombre }) {
             placeholder="Escribí tu consulta"
             aria-label="Escribí tu consulta"
             autoComplete="off"
+            maxLength={2000}
           />
           <Button type="submit" variant="aida" className="meta border-0 border-start rounded-0 px-4">
             Enviar
