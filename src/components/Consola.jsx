@@ -1,85 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import { Button, Card, Form, InputGroup } from 'react-bootstrap'
 import Mensaje from './Mensaje.jsx'
-import { respuestaPorDefecto, respuestasChat, saludoChat, sugerencias } from '../data/respuestas.js'
-import { normalizarTexto } from '../utils/texto.js'
-
-function obtenerRespuesta(consulta) {
-  const consultaNormalizada = normalizarTexto(consulta)
-  const coincidencia = respuestasChat.find((item) =>
-    item.palabras.some((palabra) => consultaNormalizada.includes(palabra)),
-  )
-  return coincidencia || respuestaPorDefecto
-}
-
-// hour12: false para que quede "09:05" y no "09:05 a. m."
-function obtenerHoraActual() {
-  return new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })
-}
-
-// sessionStorage y no localStorage: la conversación dura lo que dura la visita,
-// al cerrar la pestaña se borra (el tema, en cambio, se recuerda siempre)
-const CLAVE_CONVERSACION = 'aida-conversacion'
-
-function crearConversacionNueva() {
-  return [{ tipo: 'respuesta', texto: saludoChat, hora: obtenerHoraActual() }]
-}
-
-// Si en esta pestaña ya había una conversación se retoma; si no, arranca con el saludo
-function leerConversacionGuardada() {
-  const guardada = sessionStorage.getItem(CLAVE_CONVERSACION)
-  return guardada ? JSON.parse(guardada) : crearConversacionNueva()
-}
+import { sugerencias } from '../data/respuestas.js'
+import { useConversacion } from '../hooks/useConversacion.js'
 
 function Consola({ nombre }) {
-  const [mensajes, setMensajes] = useState(leerConversacionGuardada)
+  const { mensajes, redactando, enviar, nuevaConversacion } = useConversacion()
   const [consulta, setConsulta] = useState('')
-  const [redactando, setRedactando] = useState(false)
   const registroRef = useRef(null)
-  const esperaRef = useRef(null)
-
-  // Cada vez que cambian los mensajes se guarda la conversación, así no se pierde al
-  // cambiar de página. Escribir en el input no lo dispara: eso cambia consulta, no mensajes
-  useEffect(() => {
-    sessionStorage.setItem(CLAVE_CONVERSACION, JSON.stringify(mensajes))
-  }, [mensajes])
 
   useEffect(() => {
     const registro = registroRef.current
     registro.scrollTop = registro.scrollHeight
   }, [mensajes, redactando])
 
-  // Si se cambia de página mientras "redacta", se cancela la respuesta pendiente
-  useEffect(() => () => clearTimeout(esperaRef.current), [])
-
-  function enviar(texto) {
-    const limpio = texto.trim()
-    if (limpio === '' || redactando) return
-
-    setMensajes((anteriores) => [
-      ...anteriores,
-      { tipo: 'consulta', texto: limpio, hora: obtenerHoraActual() },
-    ])
-    setConsulta('')
-    setRedactando(true)
-
-    esperaRef.current = setTimeout(() => {
-      const respuesta = obtenerRespuesta(limpio)
-      setMensajes((anteriores) => [
-        ...anteriores,
-        { tipo: 'respuesta', ...respuesta, hora: obtenerHoraActual() },
-      ])
-      setRedactando(false)
-    }, 700)
-  }
-
-  function nuevaConversacion() {
-    setMensajes(crearConversacionNueva())
-  }
-
   function manejarSubmit(evento) {
     evento.preventDefault()
-    enviar(consulta)
+    if (enviar(consulta)) setConsulta('')
   }
 
   return (
